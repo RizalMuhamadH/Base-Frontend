@@ -1,27 +1,20 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="text-gray-400 text-xl">base-frontend-desktop</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+  <div class="container mx-auto relative">
+    <div class="absolute z-10 w-full grid grid-cols-8 justify-items-stretch">
+      <div class="w-full col-span-6 col-start-2">
+        <headline-slider />
+        <block-article />
+
+        <div class="grid grid-cols-6 gap-2 mt-3">
+          <editor-choice/>
+        </div>
       </div>
     </div>
+
+    <banner-right-left />
+
+    <div class="w-full h-screen"></div>
+    <div class="w-full h-screen"></div>
     <template v-if="isDev"> [ADSENSE PLACEHOLDER] </template>
     <ins
       class="adsbygoogle"
@@ -35,8 +28,13 @@
 </template>
 
 <script>
+import BannerRightLeft from '~/components/BannerRightLeft.vue'
+import BlockArticle from '~/components/BlockArticle.vue'
+import EditorChoice from '~/components/EditorChoice.vue'
+import HeadlineSlider from '~/components/HeadlineSlider.vue'
 // https://code.luasoftware.com/tutorials/nuxtjs/nuxtjs-manual-adsense-component/
 export default {
+  components: { HeadlineSlider, BannerRightLeft, BlockArticle, EditorChoice },
   head: {
     script: [
       {
@@ -67,42 +65,3 @@ export default {
   },
 }
 </script>
-
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
-

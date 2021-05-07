@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="relative flex items-center justify-between h-16 bg-gray-800"
-  >
+  <div class="relative flex items-center justify-between h-16 bg-gray-800">
     <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
       <!-- Mobile menu button-->
       <button
@@ -62,34 +60,92 @@
       v-scroll="handleScroll"
     >
       <div class="w-full hidden sm:block sm:ml-6">
-        <div class="flex justify-center space-x-4">
+        <div class="flex justify-center items-center space-x-4">
+          <!-- <div
+            class="static block"
+          >
+            <a
+              href="#"
+              class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+              aria-current="page"
+              >Bandung Raya</a
+            >
+            <div
+              class="absolute left-0 z-3000 w-full h-96 mt-1 bg-blue-800"
+              :class="isVisible ? 'transition ease-out duration-100 transform opacity-100 scale-100' : 'transition ease-in duration-75 transform opacity-0 scale-95'"
+            ></div>
+          </div> -->
+
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+          <mega-menu />
           <a
             href="#"
             class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
             aria-current="page"
-            >Dashboard</a
+            >Bandung Raya</a
           >
 
           <a
             href="#"
             class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >Team</a
+            >Bandung Baheula</a
           >
 
           <a
             href="#"
             class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >Projects</a
+            >Persib</a
           >
 
           <a
             href="#"
             class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-            >Calendar</a
+            >Olahraga</a
+          >
+
+          <a
+            href="#"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >Gaya Hidup</a
+          >
+
+          <a
+            href="#"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >Netizen</a
+          >
+
+          <a
+            href="#"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >Audial</a
+          >
+
+          <a
+            href="#"
+            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            >Index</a
           >
         </div>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      isVisible: false,
+    }
+  },
+  methods: {
+    showMenu() {
+      this.isVisible = true
+    },
+    hideMenu() {
+      this.isVisible = false
+      this.focusedIndex = 0
+    },
+  },
+}
+</script>

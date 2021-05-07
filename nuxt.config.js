@@ -1,8 +1,10 @@
 export default {
   tailwindcss: {
-    cssPath: '~/assets/css/style.css',
+    cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
-    jit: true
+    jit: true,
+    exposeConfig: true,
+    viewer: true
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -19,10 +21,14 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    // '@/assets/css/tailwind.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/vue-scroll',
+    '~/plugins/flicking',
+    // '~/plugins/vue-marquee-text-component'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,5 +60,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // transpile: ['@headlessui/vue'],
   }
 }
