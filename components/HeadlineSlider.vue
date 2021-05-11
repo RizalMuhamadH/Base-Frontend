@@ -27,7 +27,6 @@
         moveType: 'freeScroll',
         zIndex: 20,
       }"
-      :plugins="plugins"
       @need-panel="
         (e) => {
           // ADD PANELS

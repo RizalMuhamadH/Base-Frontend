@@ -1,20 +1,37 @@
 <template>
-  <div class="container mx-auto relative">
-    <div class="absolute z-10 w-full grid grid-cols-8 justify-items-stretch">
-      <div class="w-full col-span-6 col-start-2">
-        <headline-slider />
-        <block-article />
+  <div class="w-full">
+    <div class="w-full relative">
+      <div class="absolute z-10 top-0 w-full">
+        <div class="container mx-auto grid grid-cols-8 justify-items-stretch">
+          <div class="w-full col-span-6 col-start-2">
+            <headline-slider />
+            <block-article />
 
-        <div class="grid grid-cols-6 gap-2 mt-3">
-          <editor-choice/>
+            <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
+              <editor-choice />
+              <recent-article />
+              <popular-article />
+            </div>
+
+            <category-headline />
+          </div>
+        </div>
+
+        <div class="w-full h-full bg-gray-800">
+          <div class="container mx-auto grid grid-cols-8">
+            <article-slider />
+            <gallery />
+          </div>
         </div>
       </div>
+
+      <div class="container mx-auto">
+        <banner-right-left />
+      </div>
+
+      <!-- <div class="w-full h-screen"></div>
+    <div class="w-full h-screen"></div> -->
     </div>
-
-    <banner-right-left />
-
-    <div class="w-full h-screen"></div>
-    <div class="w-full h-screen"></div>
     <template v-if="isDev"> [ADSENSE PLACEHOLDER] </template>
     <ins
       class="adsbygoogle"
@@ -28,13 +45,28 @@
 </template>
 
 <script>
+import ArticleSlider from '~/components/ArticleSlider.vue'
 import BannerRightLeft from '~/components/BannerRightLeft.vue'
 import BlockArticle from '~/components/BlockArticle.vue'
+import CategoryHeadline from '~/components/CategoryHeadline.vue'
 import EditorChoice from '~/components/EditorChoice.vue'
+import Gallery from '~/components/Gallery.vue'
 import HeadlineSlider from '~/components/HeadlineSlider.vue'
+import PopularArticle from '~/components/PopularArticle.vue'
+import RecentArticle from '~/components/RecentArticle.vue'
 // https://code.luasoftware.com/tutorials/nuxtjs/nuxtjs-manual-adsense-component/
 export default {
-  components: { HeadlineSlider, BannerRightLeft, BlockArticle, EditorChoice },
+  components: {
+    HeadlineSlider,
+    BannerRightLeft,
+    BlockArticle,
+    EditorChoice,
+    RecentArticle,
+    PopularArticle,
+    CategoryHeadline,
+    ArticleSlider,
+    Gallery,
+  },
   head: {
     script: [
       {
