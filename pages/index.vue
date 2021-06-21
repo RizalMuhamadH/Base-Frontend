@@ -20,8 +20,15 @@
         <div class="w-full h-full bg-gray-800">
           <div class="container mx-auto grid grid-cols-8">
             <article-slider />
+            <!-- <gallery /> -->
+          </div>
+          <div class="container mx-auto grid grid-cols-8">
             <gallery />
           </div>
+        </div>
+        <div class="container mx-auto grid grid-cols-8">
+          <category />
+          <membership/>
         </div>
       </div>
 
@@ -48,10 +55,12 @@
 import ArticleSlider from '~/components/ArticleSlider.vue'
 import BannerRightLeft from '~/components/BannerRightLeft.vue'
 import BlockArticle from '~/components/BlockArticle.vue'
+import Category from '~/components/Category.vue'
 import CategoryHeadline from '~/components/CategoryHeadline.vue'
 import EditorChoice from '~/components/EditorChoice.vue'
 import Gallery from '~/components/Gallery.vue'
 import HeadlineSlider from '~/components/HeadlineSlider.vue'
+import Membership from '~/components/Membership.vue'
 import PopularArticle from '~/components/PopularArticle.vue'
 import RecentArticle from '~/components/RecentArticle.vue'
 // https://code.luasoftware.com/tutorials/nuxtjs/nuxtjs-manual-adsense-component/
@@ -66,6 +75,8 @@ export default {
     CategoryHeadline,
     ArticleSlider,
     Gallery,
+    Category,
+    Membership,
   },
   head: {
     script: [
