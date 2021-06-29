@@ -129,17 +129,23 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {}
+import { defineComponent, ref } from '@nuxtjs/composition-api'
+
+export default defineComponent({
+  setup() {
+    const flickHeadline = ref(null)
+    const prev = () => {
+      flickHeadline.value && flickHeadline.value.prev()
+    }
+    const next = () => {
+      flickHeadline.value && flickHeadline.value.next()
+    }
+
+    return {
+      prev,
+      next,
+      flickHeadline
+    }
   },
-  methods: {
-    prev() {
-      this.$refs.flickHeadline && this.$refs.flickHeadline.prev()
-    },
-    next() {
-      this.$refs.flickHeadline && this.$refs.flickHeadline.next()
-    },
-  },
-}
+})
 </script>

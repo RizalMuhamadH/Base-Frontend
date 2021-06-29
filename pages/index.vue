@@ -42,14 +42,14 @@
     <div class="w-full h-screen"></div> -->
     </div>
     <!-- <template v-if="isDev"> [ADSENSE PLACEHOLDER] </template> -->
-    <ins
+    <!-- <ins
       class="adsbygoogle"
       style="display: block"
       data-ad-client="ca-pub-5267702858942303"
       data-ad-slot="2639233875"
       data-ad-format="auto"
       data-full-width-responsive="true"
-    ></ins>
+    ></ins> -->
   </div>
 </template>
 
@@ -66,8 +66,17 @@ import Membership from '~/components/Membership.vue'
 import PopularArticle from '~/components/PopularArticle.vue'
 import RecentArticle from '~/components/RecentArticle.vue'
 import Footer from '~/components/Footer.vue'
+import {
+  defineComponent,
+  ref,
+  useMeta,
+  onMounted,
+  useFetch,
+  ssrRef,
+} from '@nuxtjs/composition-api'
+import axios from 'axios'
 // https://code.luasoftware.com/tutorials/nuxtjs/nuxtjs-manual-adsense-component/
-export default {
+export default defineComponent({
   components: {
     HeadlineSlider,
     BannerRightLeft,
@@ -82,33 +91,41 @@ export default {
     Membership,
     Footer,
   },
-  head: {
-    script: [
-      {
-        hid: 'adsense',
-        src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-        defer: true,
-        'data-ad-client': 'ca-pub-5267702858942303',
-        sync: true,
-      },
-    ],
-  },
-  data() {
+  head: {},
+  setup() {
+    // useMeta({
+    //   title: 'Home',
+    //   script: [
+    //     {
+    //       hid: 'adsense',
+    //       src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+    //       defer: true,
+    //       'data-ad-client': 'ca-pub-5267702858942303',
+    //       sync: true,
+    //     },
+    //   ],
+    // })
+
+
+    const isDev = ref(process.env.NODE_ENV !== 'production')
+
+    onMounted(() => {
+    // getHeadline()
+      if (!isDev) {
+        this.$nextTick(() => {
+          try {
+            // this is required for each ad slot (calling this once will only load 1 ad)
+            ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+          } catch (error) {
+            console.error(error)
+          }
+        })
+      }
+    })
+
     return {
-      isDev: process.env.NODE_ENV !== 'production',
+      
     }
   },
-  mounted() {
-    if (!this.isDev) {
-      this.$nextTick(() => {
-        try {
-          // this is required for each ad slot (calling this once will only load 1 ad)
-          ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-        } catch (error) {
-          console.error(error)
-        }
-      })
-    }
-  },
-}
+})
 </script>

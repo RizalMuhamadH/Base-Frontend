@@ -39,7 +39,14 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/composition-api/module'
   ],
+
+  publicRuntimeConfig: {
+    axios: {
+      baseURL: 'http://127.0.0.1:8000'
+    }
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -50,7 +57,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'http://127.0.0.1:8000'
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

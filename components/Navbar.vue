@@ -2,7 +2,16 @@
   <div>
     <nav class="bg-gray-800">
       <div
-        class="relative flex flex-col max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 items-center"
+        class="
+          relative
+          flex flex-col
+          max-w-7xl
+          mx-auto
+          px-2
+          sm:px-6
+          lg:px-8
+          items-center
+        "
       >
         <div class="flex flex-col justify-center fixed z-20">
           <img
@@ -10,7 +19,7 @@
             alt="bjb"
           />
           <transition name="fade" mode="out-in" leave-cancelled>
-              <NavItem v-show="position" />
+            <NavItem v-show="state.position" />
           </transition>
         </div>
         <div class="flex flex-col pt-28 pb-1">
@@ -27,7 +36,15 @@
     <div class="bg-green-800 rounded-b-2xl">
       <div class="container mx-auto flex items-center space-x-5 py-2">
         <div
-          class="bg-white text-yellow-600 rounded-lg py-1 px-2 font-bold text-lg"
+          class="
+            bg-white
+            text-yellow-600
+            rounded-lg
+            py-1
+            px-2
+            font-bold
+            text-lg
+          "
         >
           Headline
         </div>
@@ -38,9 +55,9 @@
             horizontal: false,
             circular: true,
             moveType: 'freeScroll',
-            zIndex: 10
+            zIndex: 10,
           }"
-          :plugins="plugins"
+          :plugins="state.plugins"
           @need-panel="
             (e) => {
               // ADD PANELS
@@ -53,32 +70,8 @@
           "
           class="w-full h-10"
         >
-          <div class="w-full text-white font-semibold line-clamp-1">
-            CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS
-            OF PANEL 0CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0
-            CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0CONTENTS
-            OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0CONTENTS OF PANEL 0
-            CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS
-            OF PANEL 0 CONTENTS OF PANEL 0CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0
-            CONTENTS OF PANEL 0CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS
-            OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0
-            CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0CONTENTS
-            OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0CONTENTS OF PANEL 0
-            CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS OF PANEL 0 CONTENTS
-            OF PANEL 0 CONTENTS OF PANEL 0CONTENTS OF PANEL 0 CONTENTS OF PANEL
-            0
-          </div>
-          <div class="w-full text-white font-semibold line-clamp-1">
-            CONTENTS OF PANEL 1
-          </div>
-          <div class="w-full text-white font-semibold line-clamp-1">
-            CONTENTS OF PANEL 2
+          <div v-for="(item, index) in headline" :key="index" class="w-full text-white font-semibold line-clamp-1">
+            {{ item.title }}
           </div>
         </flicking>
       </div>
@@ -87,38 +80,52 @@
 </template>
 <script>
 import { Fade, AutoPlay } from '@egjs/flicking-plugins'
+import { defineComponent, reactive, onMounted, } from '@nuxtjs/composition-api'
 
-export default {
-  
-  mounted() {
-    this.flick = document.getElementsByClassName('eg-flick-viewport');
-    
-    console.log(this.flick)
-    this.flick[0].style.width = '100%';
+export default defineComponent({
+  props: {
+    headline: Array
   },
-  data() {
-    return {
+  setup(props) {
+    
+
+    const state = reactive({
       flick: null,
       position: false,
       plugins: [new Fade(), new AutoPlay(2000, 'NEXT')],
-    }
-  },
-  beforeMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  },
-  destroyed() {
-    window.removeEventListener('scroll', this.handleScroll)
-  },
-  methods: {
-    handleScroll() {
+    })
+
+    const handleScroll = () => {
       // Any code to be executed when the window is scrolled
       if (window.scrollY >= 200) {
-        this.position = true
+        state.position = true
       } else {
-        this.position = false
+        state.position = false
       }
-      console.log(this.position)
-    },
+      console.log(state.position)
+    }
+
+    onMounted(() => {
+      fetch()
+      window.addEventListener('scroll', handleScroll)
+      state.flick = document.getElementsByClassName('eg-flick-viewport')
+
+      console.log(state.flick)
+      state.flick[0].style.width = '100%'
+    })
+
+    // onBeforeMount(() => {
+    //   window.addEventListener('scroll', handleScroll)
+    // })
+    // onDeactivated(() => {
+    //   window.removeEventListener('scroll', handleScroll)
+    // })
+
+    return {
+      state,
+      headline: props.headline
+    }
   },
-}
+})
+
 </script>
