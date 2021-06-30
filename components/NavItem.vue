@@ -4,7 +4,16 @@
       <!-- Mobile menu button-->
       <button
         type="button"
-        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+        class="
+          inline-flex
+          items-center
+          justify-center
+          p-2
+          rounded-md
+          text-gray-400
+          hover:text-white hover:bg-gray-700
+          focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white
+        "
         aria-controls="mobile-menu"
         aria-expanded="false"
       >
@@ -56,7 +65,12 @@
       </button>
     </div>
     <div
-      class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start"
+      class="
+        flex-1 flex
+        items-center
+        justify-center
+        sm:items-stretch sm:justify-start
+      "
       v-scroll="handleScroll"
     >
       <div class="w-full hidden sm:block sm:ml-6">
@@ -77,53 +91,128 @@
           </div> -->
 
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-          <mega-menu />
+          <template v-for="(item, index) in menus">
+            <div :key="index">
+              <mega-menu :menu="item" v-if="item.children.length > 0" />
+              <a
+                v-else
+                href="#"
+                class="text-white px-3 py-2 rounded-md text-sm font-medium"
+                aria-current="page"
+                >{{ item.name }}</a
+              >
+            </div>
+          </template>
           <a
             href="#"
-            class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              bg-gray-900
+              text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             aria-current="page"
             >Bandung Raya</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Bandung Baheula</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Persib</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Olahraga</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Gaya Hidup</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Netizen</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Audial</a
           >
 
           <a
             href="#"
-            class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+            class="
+              text-gray-300
+              hover:bg-gray-700 hover:text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
             >Index</a
           >
         </div>
@@ -132,20 +221,28 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
-    return {
-      isVisible: false,
-    }
+import { defineComponent, ref } from '@nuxtjs/composition-api'
+
+export default defineComponent({
+  props: {
+    menus: Array,
   },
-  methods: {
-    showMenu() {
+  setup(props) {
+    const isVisible = ref(false)
+
+    const showMenu = () => {
       this.isVisible = true
-    },
-    hideMenu() {
+    }
+    const hideMenu = () => {
       this.isVisible = false
       this.focusedIndex = 0
-    },
+    }
+
+    return {
+      showMenu,
+      hideMenu,
+      isVisible
+    }
   },
-}
+})
 </script>

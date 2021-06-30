@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar :headline="headline" />
+    <Navbar :headline="headline" :menus="menuCategories" />
     <Nuxt />
   </div>
 </template>
@@ -16,6 +16,7 @@ import axios from 'axios'
 export default defineComponent({
   setup() {
     const headline = ssrRef([])
+    const menuCategories = ssrRef([])
 
     const { fetch } = useFetch(async () => {
       await axios
@@ -27,6 +28,16 @@ export default defineComponent({
         .catch((err) => {
           console.log(err)
         })
+
+        await axios
+        .get('http://127.0.0.1:8000/api/categories')
+        .then((result) => {
+          menuCategories.value = result.data.data
+          console.log(menuCategories.value)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     })
 
     onMounted(() => {
@@ -34,7 +45,8 @@ export default defineComponent({
     })
 
     return {
-      headline
+      headline,
+      menuCategories
     }
   },
 })

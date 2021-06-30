@@ -19,7 +19,7 @@
             alt="bjb"
           />
           <transition name="fade" mode="out-in" leave-cancelled>
-            <NavItem v-show="state.position" />
+            <NavItem :menus="menus" v-show="state.position" />
           </transition>
         </div>
         <div class="flex flex-col pt-28 pb-1">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="w-full border-t border-white">
-        <NavItem />
+        <NavItem :menus="menus" />
       </div>
     </nav>
     <div class="bg-green-800 rounded-b-2xl">
@@ -84,7 +84,8 @@ import { defineComponent, reactive, onMounted, } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   props: {
-    headline: Array
+    headline: Array,
+    menus: Array
   },
   setup(props) {
     
@@ -106,7 +107,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      fetch()
       window.addEventListener('scroll', handleScroll)
       state.flick = document.getElementsByClassName('eg-flick-viewport')
 
@@ -123,7 +123,6 @@ export default defineComponent({
 
     return {
       state,
-      headline: props.headline
     }
   },
 })
