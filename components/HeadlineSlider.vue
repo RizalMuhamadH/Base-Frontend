@@ -39,73 +39,23 @@
       "
       class="w-full py-3 px-4 relative"
     >
-      <div class="flex gap-2 h-24 w-1/3">
+      <div class="flex gap-2 h-24 w-1/3" v-for="(item, index) in posts" :key="index">
         <img
-          src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/06/10858/diet-bahaya_thumb.jpg"
+          :src="'https://www.ayosurabaya.com/images-surabaya/'+item.image.thumb"
           class="shadow rounded max-w-full h-auto align-middle border-none"
-          alt="article"
+          :alt="item.image.caption"
         />
         <div class="flex flex-col">
           <div class="text-black text-sm py-2">
-            <span class="text-green-700 font-bold">Regional</span> | 31
-            September 2021
+            <span class="text-green-700 font-bold">{{ item.categories[0].name }}</span> | {{ item.date_format }}
           </div>
           <p class="font-bold text-black text-sm line-clamp-2">
-            Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
+            {{ item.title }}
           </p>
         </div>
       </div>
 
-      <div class="flex gap-2 h-24 w-1/3">
-        <img
-          src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/06/10858/diet-bahaya_thumb.jpg"
-          class="shadow rounded max-w-full h-auto align-middle border-none"
-          alt="article"
-        />
-        <div class="flex flex-col">
-          <div class="text-black text-sm py-2">
-            <span class="text-green-700 font-bold">Regional</span> | 31
-            September 2021
-          </div>
-          <p class="font-bold text-black text-sm line-clamp-2">
-            Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-          </p>
-        </div>
-      </div>
-
-      <div class="flex gap-2 h-24 w-1/3">
-        <img
-          src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/06/10858/diet-bahaya_thumb.jpg"
-          class="shadow rounded max-w-full h-auto align-middle border-none"
-          alt="article"
-        />
-        <div class="flex flex-col">
-          <div class="text-black text-sm py-2">
-            <span class="text-green-700 font-bold">Regional</span> | 31
-            September 2021
-          </div>
-          <p class="font-bold text-black text-sm line-clamp-2">
-            Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-          </p>
-        </div>
-      </div>
-
-      <div class="flex gap-2 h-24 w-1/3">
-        <img
-          src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/06/10858/diet-bahaya_thumb.jpg"
-          class="shadow rounded max-w-full h-auto align-middle border-none"
-          alt="article"
-        />
-        <div class="flex flex-col">
-          <div class="text-black text-sm py-2">
-            <span class="text-green-700 font-bold">Regional</span> | 31
-            September 2021
-          </div>
-          <p class="font-bold text-black text-sm line-clamp-2">
-            Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-          </p>
-        </div>
-      </div>
+      
     </flicking>
 
     <div class="cursor-pointer text-yellow-500 h-4 w-4" @click="next">
@@ -132,6 +82,9 @@
 import { defineComponent, ref } from '@nuxtjs/composition-api'
 
 export default defineComponent({
+  props: {
+    posts: Array
+  },
   setup() {
     const flickHeadline = ref(null)
     const prev = () => {

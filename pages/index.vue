@@ -4,13 +4,13 @@
       <div class="absolute z-10 top-0 w-full">
         <div class="container mx-auto grid grid-cols-8 justify-items-stretch">
           <div class="w-full col-span-6 col-start-2">
-            <headline-slider />
-            <block-article />
+            <headline-slider :posts="mustRead" />
+            <block-article :posts="block" />
 
             <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
-              <editor-choice />
-              <recent-article />
-              <popular-article />
+              <editor-choice :posts="editorChoice" />
+              <recent-article :posts="recent" />
+              <popular-article :posts="popular" />
             </div>
 
             <category-headline />
@@ -93,6 +93,11 @@ export default defineComponent({
   },
   head: {},
   setup() {
+    const block = ssrRef([]);
+    const mustRead = ssrRef([]);
+    const editorChoice = ssrRef([]);
+    const recent = ssrRef([]);
+    const popular = ssrRef([]);
     // useMeta({
     //   title: 'Home',
     //   script: [
@@ -106,10 +111,61 @@ export default defineComponent({
     //   ],
     // })
 
+    const { fetch } = useFetch(async () => {
+      await axios
+        .get('http://127.0.0.1:8000/api/recent/0/5')
+        .then((result) => {
+          block.value = result.data.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      
+      await axios
+        .get('http://127.0.0.1:8000/api/feature/4/0/5')
+        .then((result) => {
+          mustRead.value = result.data.data
+          console.log(block.value)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/feature/2/0/5')
+        .then((result) => {
+          editorChoice.value = result.data.data
+          console.log(block.value)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/recent/0/10')
+        .then((result) => {
+          recent.value = result.data.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/popular/0/5')
+        .then((result) => {
+          popular.value = result.data.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+    })
+
 
     const isDev = ref(process.env.NODE_ENV !== 'production')
 
     onMounted(() => {
+      fetch()
     // getHeadline()
       if (!isDev) {
         this.$nextTick(() => {
@@ -124,7 +180,11 @@ export default defineComponent({
     })
 
     return {
-      
+      block,
+      mustRead,
+      editorChoice,
+      recent,
+      popular
     }
   },
 })

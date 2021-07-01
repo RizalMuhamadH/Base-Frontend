@@ -90,6 +90,20 @@
             ></div>
           </div> -->
 
+          <a
+            href="/"
+            class="
+              text-white
+              px-3
+              py-2
+              rounded-md
+              text-sm
+              font-medium
+            "
+            aria-current="page"
+            >Home</a
+          >
+
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
           <template v-for="(item, index) in menus">
             <div :key="index">
@@ -103,107 +117,9 @@
               >
             </div>
           </template>
-          <a
-            href="#"
-            class="
-              bg-gray-900
-              text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            aria-current="page"
-            >Bandung Raya</a
-          >
 
           <a
-            href="#"
-            class="
-              text-gray-300
-              hover:bg-gray-700 hover:text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            >Bandung Baheula</a
-          >
-
-          <a
-            href="#"
-            class="
-              text-gray-300
-              hover:bg-gray-700 hover:text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            >Persib</a
-          >
-
-          <a
-            href="#"
-            class="
-              text-gray-300
-              hover:bg-gray-700 hover:text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            >Olahraga</a
-          >
-
-          <a
-            href="#"
-            class="
-              text-gray-300
-              hover:bg-gray-700 hover:text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            >Gaya Hidup</a
-          >
-
-          <a
-            href="#"
-            class="
-              text-gray-300
-              hover:bg-gray-700 hover:text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            >Netizen</a
-          >
-
-          <a
-            href="#"
-            class="
-              text-gray-300
-              hover:bg-gray-700 hover:text-white
-              px-3
-              py-2
-              rounded-md
-              text-sm
-              font-medium
-            "
-            >Audial</a
-          >
-
-          <a
-            href="#"
+            href="/index"
             class="
               text-gray-300
               hover:bg-gray-700 hover:text-white

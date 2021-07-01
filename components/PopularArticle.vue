@@ -2,34 +2,64 @@
   <div class="col-span-2">
     <div class="flex flex-col flex-1 sticky top-28">
       <div
-        class="font-bold text-green-700 text-2xl border-green-700 border-b-2 text-center py-2"
+        class="
+          font-bold
+          text-green-700 text-2xl
+          border-green-700 border-b-2
+          text-center
+          py-2
+        "
       >
         Berita Terpopuler
       </div>
       <div class="flex flex-col mt-3 space-y-3">
-        <div class="flex flex-row flex-auto space-x-2">
-          <div class="text-lg font-bold text-green-700">1.</div>
+        <div
+          class="flex flex-row flex-auto space-x-2"
+          v-for="(item, index) in posts"
+          :key="index"
+        >
+          <div class="text-lg font-bold text-green-700">{{ index }}.</div>
           <div class="relative">
             <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
               <div class="text-white text-sm py-2">
                 <span
-                  class="bg-green-700 text-white font-normal px-2 py-1 rounded-lg border-none"
-                  >Regional</span
+                  class="
+                    bg-green-700
+                    text-white
+                    font-normal
+                    px-2
+                    py-1
+                    rounded-lg
+                    border-none
+                  "
+                  >{{ item.categories[0].name }}</span
                 >
-                | 31 September 2021
+                | {{ item.date_format }}
               </div>
               <p class="font-medium text-white text-sm line-clamp-2">
-                Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
+                {{ item.title }}
               </p>
             </div>
 
             <div
-              class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
+              class="
+                h-48
+                w-full
+                bg-gray-600
+                absolute
+                z-10
+                rounded-xl
+                border-none
+                opacity-30
+              "
             ></div>
             <img
               class="rounded-xl max-w-full h-48 align-middle border-none"
-              src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-              alt=""
+              :src="
+                'https://www.ayosurabaya.com/images-surabaya/' +
+                item.image.thumb
+              "
+              :alt="item.image.caption"
             />
           </div>
         </div>
@@ -40,7 +70,15 @@
             <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
               <div class="text-white text-sm py-2">
                 <span
-                  class="bg-green-700 text-white font-normal px-2 py-1 rounded-lg border-none"
+                  class="
+                    bg-green-700
+                    text-white
+                    font-normal
+                    px-2
+                    py-1
+                    rounded-lg
+                    border-none
+                  "
                   >Regional</span
                 >
                 | 31 September 2021
@@ -51,7 +89,16 @@
             </div>
 
             <div
-              class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
+              class="
+                h-48
+                w-full
+                bg-gray-600
+                absolute
+                z-10
+                rounded-xl
+                border-none
+                opacity-30
+              "
             ></div>
             <img
               class="rounded-xl max-w-full h-48 align-middle border-none"
@@ -67,7 +114,15 @@
             <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
               <div class="text-white text-sm py-2">
                 <span
-                  class="bg-green-700 text-white font-normal px-2 py-1 rounded-lg border-none"
+                  class="
+                    bg-green-700
+                    text-white
+                    font-normal
+                    px-2
+                    py-1
+                    rounded-lg
+                    border-none
+                  "
                   >Regional</span
                 >
                 | 31 September 2021
@@ -78,7 +133,16 @@
             </div>
 
             <div
-              class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
+              class="
+                h-48
+                w-full
+                bg-gray-600
+                absolute
+                z-10
+                rounded-xl
+                border-none
+                opacity-30
+              "
             ></div>
             <img
               class="rounded-xl max-w-full h-48 align-middle border-none"
@@ -94,7 +158,15 @@
             <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
               <div class="text-white text-sm py-2">
                 <span
-                  class="bg-green-700 text-white font-normal px-2 py-1 rounded-lg border-none"
+                  class="
+                    bg-green-700
+                    text-white
+                    font-normal
+                    px-2
+                    py-1
+                    rounded-lg
+                    border-none
+                  "
                   >Regional</span
                 >
                 | 31 September 2021
@@ -105,7 +177,16 @@
             </div>
 
             <div
-              class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
+              class="
+                h-48
+                w-full
+                bg-gray-600
+                absolute
+                z-10
+                rounded-xl
+                border-none
+                opacity-30
+              "
             ></div>
             <img
               class="rounded-xl max-w-full h-48 align-middle border-none"
@@ -121,7 +202,15 @@
             <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
               <div class="text-white text-sm py-2">
                 <span
-                  class="bg-green-700 text-white font-normal px-2 py-1 rounded-lg border-none"
+                  class="
+                    bg-green-700
+                    text-white
+                    font-normal
+                    px-2
+                    py-1
+                    rounded-lg
+                    border-none
+                  "
                   >Regional</span
                 >
                 | 31 September 2021
@@ -132,7 +221,16 @@
             </div>
 
             <div
-              class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
+              class="
+                h-48
+                w-full
+                bg-gray-600
+                absolute
+                z-10
+                rounded-xl
+                border-none
+                opacity-30
+              "
             ></div>
             <img
               class="rounded-xl max-w-full h-48 align-middle border-none"
@@ -146,5 +244,11 @@
   </div>
 </template>
 <script>
-export default {}
+import { defineComponent } from "@nuxtjs/composition-api";
+
+export default defineComponent ({
+  props: {
+    posts: Array
+  }
+})
 </script>
