@@ -1,12 +1,21 @@
 <template>
   <div class="w-full h-auto my-8 col-span-6 col-start-2">
-      <div class="font-bold text-yellow-500 text-3xl border-yellow-500 border-b-2 pb-4 mt-2 mb-6">
-          Netizen
-      </div>
+    <div
+      class="
+        font-bold
+        text-yellow-500 text-3xl
+        border-yellow-500 border-b-2
+        pb-4
+        mt-2
+        mb-6
+      "
+    >
+      {{ name }}
+    </div>
     <div class="flex items-center">
       <div
         class="cursor-pointer text-yellow-500 h-4 w-4 mr-2"
-        @click="prev(ref)"
+        @click="prev()"
       >
         <svg
           aria-hidden="true"
@@ -25,7 +34,7 @@
         </svg>
       </div>
       <flicking
-        :ref="ref"
+        ref="state"
         :options="{
           gap: 30,
           duration: 500,
@@ -36,7 +45,42 @@
         }"
         class="w-full"
       >
-        <div class="relative w-80">
+        <div class="relative w-80" v-for="(item, index) in posts" :key="index">
+          <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
+            <div class="text-white text-sm py-2">{{ item.date_format }}</div>
+            <p class="font-medium text-white text-sm line-clamp-2">
+              {{ item.title }}
+            </p>
+          </div>
+
+          <div
+            class="
+              h-48
+              w-full
+              bg-gray-600
+              absolute
+              z-10
+              rounded-xl
+              border-none
+              opacity-30
+            "
+          ></div>
+          <img
+            class="
+              rounded-xl
+              w-full
+              h-48
+              align-middle
+              border-none
+              object-cover
+            "
+            :src="
+              'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+            "
+            :alt="item.image.caption"
+          />
+        </div>
+        <!-- <div class="relative w-80">
           <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
             <div class="text-white text-sm py-2">31 September 2021</div>
             <p class="font-medium text-white text-sm line-clamp-2">
@@ -103,28 +147,11 @@
             src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
             alt=""
           />
-        </div>
-        <div class="relative w-80">
-          <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-            <div class="text-white text-sm py-2">31 September 2021</div>
-            <p class="font-medium text-white text-sm line-clamp-2">
-              Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-            </p>
-          </div>
-
-          <div
-            class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
-          ></div>
-          <img
-            class="rounded-xl max-w-full h-48 align-middle border-none object-cover"
-            src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-            alt=""
-          />
-        </div>
+        </div> -->
       </flicking>
       <div
         class="cursor-pointer text-yellow-500 h-4 w-4 ml-4"
-        @click="next(ref)"
+        @click="next()"
       >
         <svg
           aria-hidden="true"
@@ -146,19 +173,28 @@
   </div>
 </template>
 <script>
-export default {
-  data() {
+import { defineComponent, ref } from '@nuxtjs/composition-api'
+
+export default defineComponent({
+  props: {
+    name: String,
+    posts: Array,
+  },
+  setup(props) {
+    const state = ref(null)
+
+    const prev = () => {
+      state.value.prev()
+    }
+    const next = () => {
+      state.value.next()
+    }
+
     return {
-      ref: 'flick',
+      state,
+      prev,
+      next,
     }
   },
-  methods: {
-    prev(name) {
-      this.$refs[name].prev()
-    },
-    next(name) {
-      this.$refs[name].next()
-    },
-  },
-}
+})
 </script>

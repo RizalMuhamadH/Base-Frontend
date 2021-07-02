@@ -10,24 +10,24 @@
             <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
               <editor-choice :posts="editorChoice" />
               <recent-article :posts="recent" />
-              <popular-article :posts="popular" />
+              <popular-article :postHits="popular" />
             </div>
 
-            <category-headline />
+            <category-headline :names="['Nasional', 'Internasional']" :categories="[category1, category2]" />
           </div>
         </div>
 
         <div class="w-full h-full bg-gray-800">
           <div class="container mx-auto grid grid-cols-8">
-            <article-slider />
+            <article-slider :name="'Netizen'" :posts="netizen" />
             <!-- <gallery /> -->
           </div>
           <div class="container mx-auto grid grid-cols-8">
-            <gallery />
+            <gallery :videos="videos" :photos="photos"  />
           </div>
         </div>
         <div class="container mx-auto grid grid-cols-8">
-          <category />
+          <category :name="'Hot News'" :posts="category" />
           <membership />
         </div>
 
@@ -98,6 +98,12 @@ export default defineComponent({
     const editorChoice = ssrRef([]);
     const recent = ssrRef([]);
     const popular = ssrRef([]);
+    const category = ssrRef([]);
+    const category1 = ssrRef([]);
+    const category2 = ssrRef([]);
+    const netizen = ssrRef([]);
+    const photos = ssrRef([]);
+    const videos = ssrRef([]);
     // useMeta({
     //   title: 'Home',
     //   script: [
@@ -151,9 +157,83 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/popular/0/5')
+        .get('http://127.0.0.1:8000/api/popular/0/4/90')
         .then((result) => {
           popular.value = result.data.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/recent/19/5')
+        .then((result) => {
+          let data = result.data.data
+          category.value = {
+            main: data.splice(0, 1),
+            list: data
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/recent/2/5')
+        .then((result) => {
+          let data = result.data.data
+          category1.value = {
+            main: data.splice(0, 1),
+            list: data
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/recent/3/5')
+        .then((result) => {
+          let data = result.data.data
+          category2.value = {
+            main: data.splice(0, 1),
+            list: data
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/recent/10/5')
+        .then((result) => {
+          netizen.value = result.data.data
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/video/recent/5')
+        .then((result) => {
+          let data = result.data.data
+          videos.value = {
+            main: data.splice(0, 1),
+            list: data
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await axios
+        .get('http://127.0.0.1:8000/api/photo/recent/5')
+        .then((result) => {
+          let data = result.data.data
+          photos.value = {
+            main: data.splice(0, 1),
+            list: data
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -168,14 +248,14 @@ export default defineComponent({
       fetch()
     // getHeadline()
       if (!isDev) {
-        this.$nextTick(() => {
-          try {
-            // this is required for each ad slot (calling this once will only load 1 ad)
-            ;(window.adsbygoogle = window.adsbygoogle || []).push({})
-          } catch (error) {
-            console.error(error)
-          }
-        })
+        // this.$nextTick(() => {
+        //   try {
+        //     // this is required for each ad slot (calling this once will only load 1 ad)
+        //     ;(window.adsbygoogle = window.adsbygoogle || []).push({})
+        //   } catch (error) {
+        //     console.error(error)
+        //   }
+        // })
       }
     })
 
@@ -184,7 +264,13 @@ export default defineComponent({
       mustRead,
       editorChoice,
       recent,
-      popular
+      popular,
+      netizen,
+      videos,
+      photos,
+      category,
+      category1,
+      category2
     }
   },
 })
