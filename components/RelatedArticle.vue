@@ -1,17 +1,5 @@
 <template>
-  <div class="col-span-3">
-    <div
-      class="
-        font-bold
-        text-green-700 text-2xl
-        border-green-700 border-b-2
-        text-center
-        py-2
-      "
-    >
-      Terbaru
-    </div>
-
+  <div class="col-span-3 col-start-2">
     <div class="flex flex-col divide-y divide-gray-300 mt-3 space-y-3">
       <div
         class="flex pt-3 space-x-2"
@@ -38,9 +26,19 @@
             <span class="text-green-700 font-bold">{{
               item.categories[0].name
             }}</span>
-            | {{ $moment(item.created_at, "YYYY-MM-DDTHH:mm:ss").fromNow() }}
+            | {{ $moment(item.created_at, 'YYYY-MM-DDTHH:mm:ss').fromNow() }}
           </div>
-          <a :href="'/read/'+$moment(item.created_at).format('YYYY/MM/DD')+'/'+item.id+'/'+item.slug" class="font-medium text-black text-sm">
+          <a
+            :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            "
+            class="font-medium text-black text-sm"
+          >
             {{ item.title }}
           </a>
         </div>
@@ -58,12 +56,12 @@ export default defineComponent({
   },
   setup(props) {
     const dateMoment = (date) => {
-      return moment(date).fromNow();
+      return moment(date).fromNow()
     }
 
     return {
-      dateMoment
+      dateMoment,
     }
-  }
+  },
 })
 </script>

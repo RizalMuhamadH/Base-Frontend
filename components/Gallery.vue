@@ -305,8 +305,8 @@ import { defineComponent, ref } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   props: {
-    photos: Array,
-    videos: Array,
+    photos: Object,
+    videos: Object,
   },
   setup(props) {
     const tabIndex = ref(0)

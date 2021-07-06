@@ -19,22 +19,8 @@
         </a>
       </div>
     </div>
-    <div class="text-justify">
-      AYOBANDUNG.COM -- Dua wakil andalan Indonesia di sektor tunggal putra
-      melenggang ke babak kedua Yonex Thailand Open 2021 di Impact Arena,
-      Bangkok, Selasa (12/1/2021). Anthony Sinisuka Ginঞng dan Jonatan Crisঞe
-      menang atas lawan-lawannya. Kemenangan juga diraih dari sektor andalan
-      ganda putra, pasangan Fajar Alfian/Muhammad Rian Ardianto, setelah menang
-      atas pasangan tuan rumah, Nipitphon Phuangphuapet/Tanupat Viriyangkura.
-      Anthony lolos ke babak kedua setelah mengalahkan wakil Korea Selatan, Heo
-      Kwang Hee. Pemain asal Cimahi itu butuh bermain hingga rubber game sebelum
-      menang dengan skor 21-15, 11-21, 21-16. Kemenangan juga diraih dari sektor
-      andalan ganda putra, pasangan Fajar Alfian/Muhammad Rian Ardianto, setelah
-      menang atas pasangan tuan rumah, Nipitphon Phuangphuapet/Tanupat
-      Viriyangkura. Anthony lolos ke babak kedua setelah mengalahkan wakil Korea
-      Selatan, Heo Kwang Hee. Pemain asal Cimahi itu butuh bermain hingga rubber
-      game sebelum menang dengan skor 21-15, 11-21, 21-16. 0 0 0 0 0 Editor:
-      Dadi Haryadi
+    <div class="content text-justify" v-html="post.body">
+      
     </div>
     <div class="flex flex-col my-3 space-y-4">
       <div class="flex text-green-800 space-x-3">
@@ -42,55 +28,32 @@
         <span class="font-extrabold text-2xl">TAGS</span>
       </div>
       <div class="flex flex-wrap">
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
+        <a href="#" v-for="(item, index) in post.tags" :key="index"
+          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2 hover:bg-green-800 hover:text-white"
         >
-          Olahraga
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Bulu Tangkis
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Sport
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Olahraga
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Bulu Tangkis
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Sport
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Olahraga
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Bulu Tangkis
-        </div>
-        <div
-          class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2"
-        >
-          Sport
-        </div>
+          {{ item.name }}
+        </a>
+        
       </div>
     </div>
+    
+    <related-article :posts="related"/>
+    
   </div>
 </template>
 <script>
-export default {}
+import { defineComponent } from "@nuxtjs/composition-api";
+
+export default defineComponent ({
+  props: {
+    post: Object,
+    related: Array
+  }
+})
 </script>
+<style >
+  .content p a {
+    color: coral;
+    font-weight: bold;
+  }
+</style>

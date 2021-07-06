@@ -23,7 +23,6 @@ export default defineComponent({
         .get('http://127.0.0.1:8000/api/feature/1/0/10')
         .then((result) => {
           headline.value = result.data.data
-          console.log(headline.value)
         })
         .catch((err) => {
           console.log(err)
@@ -33,7 +32,6 @@ export default defineComponent({
         .get('http://127.0.0.1:8000/api/categories')
         .then((result) => {
           menuCategories.value = result.data.data
-          console.log(menuCategories.value)
         })
         .catch((err) => {
           console.log(err)

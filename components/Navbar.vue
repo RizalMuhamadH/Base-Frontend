@@ -110,7 +110,6 @@ export default defineComponent({
       window.addEventListener('scroll', handleScroll)
       state.flick = document.getElementsByClassName('eg-flick-viewport')
 
-      console.log(state.flick)
       state.flick[0].style.width = '100%'
     })
 

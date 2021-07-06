@@ -14,8 +14,8 @@
           ></path>
         </svg>
       </li>
-      <li class="inline-flex items-center">
-        <a href="/components">Components</a>
+      <li v-if="category.parent != null" class="inline-flex items-center">
+        <a href="/components">{{ category.parent.name }}</a>
         <svg
           class="h-5 w-auto text-gray-400"
           fill="currentColor"
@@ -29,12 +29,16 @@
         </svg>
       </li>
       <li class="inline-flex items-center text-green-800">
-        <a href="#" class="text-teal-400">Breadcrumb</a>
+        <a href="#" class="text-teal-400">{{ category.name }}</a>
       </li>
     </ul>
 </template>
 <script>
-export default {
-    
-}
+import { defineComponent } from "@nuxtjs/composition-api";
+
+export default defineComponent ({
+    props: {
+      category: Object
+    }
+})
 </script>

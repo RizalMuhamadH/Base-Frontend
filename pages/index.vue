@@ -131,7 +131,6 @@ export default defineComponent({
         .get('http://127.0.0.1:8000/api/feature/4/0/5')
         .then((result) => {
           mustRead.value = result.data.data
-          console.log(block.value)
         })
         .catch((err) => {
           console.log(err)
@@ -141,7 +140,6 @@ export default defineComponent({
         .get('http://127.0.0.1:8000/api/feature/2/0/5')
         .then((result) => {
           editorChoice.value = result.data.data
-          console.log(block.value)
         })
         .catch((err) => {
           console.log(err)

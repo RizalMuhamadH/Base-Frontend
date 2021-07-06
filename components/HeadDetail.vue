@@ -1,21 +1,30 @@
 <template>
   <div class="col-span-4 space-y-4">
-    <breadcrumb/>
+    <breadcrumb :category="post.categories[0]" />
     <div class="text-3xl font-bold text-justify">
-        Hasil Thailand Open 2021: Ginঞng, Jojo, Fajar/Rian Menang. Gregoria Mariska Tumbang
+      {{ post.title }}
     </div>
     <div class="text-sm">
-        Ayo Bandung | 31 September 2020, 09:32 WIB | <span class="text-green-800 font-semibold">Erika Lia</span>
+      {{ post.categories[0].name }} | {{ post.date_format }} WIB |
+      <span class="text-green-800 font-semibold">{{ post.author.name }}</span>
     </div>
     <img
-        class="rounded-xl w-full border-none object-cover"
-        src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-        alt=""
-      />
+      class="rounded-xl w-full border-none object-cover"
+      :src="'https://www.ayosurabaya.com/images-surabaya/' + post.image.thumb"
+      :alt="post.image.caption"
+    />
   </div>
 </template>
 <script>
+import { defineComponent } from '@nuxtjs/composition-api'
 import Breadcrumb from './Breadcrumb.vue'
-export default {
-  components: { Breadcrumb },}
+export default defineComponent({
+  components: {
+    Breadcrumb,
+  },
+  props: {
+    post: Object,
+  },
+  setup(props) {},
+})
 </script>
