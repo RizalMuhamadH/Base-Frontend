@@ -39,7 +39,14 @@
       "
       class="w-full py-3 px-4 relative"
     >
-      <div class="flex gap-2 h-24 w-1/3" v-for="(item, index) in posts" :key="index">
+      <a :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            " class="flex gap-2 h-24 w-1/3" v-for="(item, index) in posts" :key="index">
         <img
           :src="'https://www.ayosurabaya.com/images-surabaya/'+item.image.thumb"
           class="shadow rounded max-w-full h-auto align-middle border-none"
@@ -53,7 +60,7 @@
             {{ item.title }}
           </p>
         </div>
-      </div>
+      </a>
 
       
     </flicking>

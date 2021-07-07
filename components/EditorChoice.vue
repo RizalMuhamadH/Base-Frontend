@@ -13,7 +13,14 @@
         Editor Choice
       </div>
       <div class="divide-y divide-yellow-500 mt-3 flex-none">
-        <div
+        <a :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            "
           class="flex flex-col py-3"
           v-for="(item, index) in posts"
           :key="index"
@@ -31,7 +38,7 @@
           <p class="font-medium text-black text-sm">
             {{ item.title }}
           </p>
-        </div>
+        </a>
       </div>
     </div>
   </div>

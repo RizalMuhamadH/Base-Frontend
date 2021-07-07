@@ -86,7 +86,7 @@ export default defineComponent({
     // ],
   },
   setup(props) {
-    const { route, params } = useContext()
+    const { route, params, $config, $nuxt } = useContext()
     const { meta, title } = useMeta()
 
     const isDev = ref(process.env.NODE_ENV !== 'production')
@@ -99,9 +99,12 @@ export default defineComponent({
     const related = ssrRef([])
 
     const { fetch } = useFetch(async () => {
+      // $nuxt.$loading.start()
+
       await axios
-        .get('http://127.0.0.1:8000/api/feature/4/0/5')
+        .get(process.env.API_URL+'feature/4/0/5')
         .then((result) => {
+          console.log($config)
           mustRead.value = result.data.data
         })
         .catch((err) => {
@@ -109,7 +112,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/feature/2/0/5')
+        .get(process.env.API_URL+'feature/2/0/5')
         .then((result) => {
           editorChoice.value = result.data.data
         })
@@ -118,7 +121,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/popular/0/4/90')
+        .get(process.env.API_URL+'popular/0/4/90')
         .then((result) => {
           popular.value = result.data.data
         })
@@ -127,7 +130,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/article/' + params.value.id)
+        .get(process.env.API_URL+'article/' + params.value.id)
         .then((result) => {
           post.value = result.data.data.post
           image.value = result.data.data.post.image
@@ -154,6 +157,8 @@ export default defineComponent({
         .catch((err) => {
           console.log(err)
         })
+
+        // $nuxt.$loading.finish()
     })
 
     // useMeta({

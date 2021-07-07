@@ -18,8 +18,18 @@
           v-for="(item, index) in posts"
           :key="index"
         >
-          <div class="text-lg font-bold text-green-700">{{ index+1 }}.</div>
-          <div class="relative">
+          <div class="text-lg font-bold text-green-700">{{ index + 1 }}.</div>
+          <a
+            :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            "
+            class="relative"
+          >
             <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
               <div class="text-white text-sm py-2">
                 <span
@@ -61,9 +71,8 @@
               "
               :alt="item.image.caption"
             />
-          </div>
+          </a>
         </div>
-
       </div>
     </div>
   </div>
@@ -82,11 +91,10 @@ export default defineComponent({
       for (let index = 0; index < props.postHits.length; index++) {
         posts.value.push(props.postHits[index].post)
       }
-
     })
 
     return {
-      posts
+      posts,
     }
   },
 })

@@ -1,6 +1,13 @@
 <template>
   <div class="grid grid-cols-2 gap-2">
-    <div class="relative col-span-1" v-for="(item, index) in main" :key="index">
+    <a :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            " class="relative col-span-1" v-for="(item, index) in main" :key="index">
       <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
         <div class="text-white text-sm py-2">
           <span
@@ -36,12 +43,24 @@
       ></div>
       <img
         class="rounded-xl w-full h-full align-middle border-none"
-        :src="'https://www.ayosurabaya.com/images-surabaya/'+item.image.thumb"
+        :src="'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb"
         :alt="item.image.caption"
       />
-    </div>
+    </a>
     <div class="col-span-1 grid grid-cols-2 grid-flow-col grid-rows-2 gap-2">
-      <div class="relative" v-for="(item, index) in list" :key="index">
+      <a
+        :href="
+          '/read/' +
+          $moment(item.created_at).format('YYYY/MM/DD') +
+          '/' +
+          item.id +
+          '/' +
+          item.slug
+        "
+        class="relative"
+        v-for="(item, index) in list"
+        :key="index"
+      >
         <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
           <div class="text-white text-sm py-2">
             <span
@@ -58,9 +77,9 @@
             >
             | {{ item.date_format }}
           </div>
-          <p class="font-medium text-white text-sm line-clamp-2">
+          <h2 class="font-medium text-white text-sm line-clamp-2">
             {{ item.title }}
-          </p>
+          </h2>
         </div>
 
         <div
@@ -77,10 +96,12 @@
         ></div>
         <img
           class="rounded-xl max-w-full h-48 align-middle border-none"
-          :src="'https://www.ayosurabaya.com/images-surabaya/'+item.image.thumb"
+          :src="
+            'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+          "
           :alt="item.image.caption"
         />
-      </div>
+      </a>
     </div>
   </div>
 </template>
@@ -93,19 +114,19 @@ export default defineComponent({
   },
   setup(props) {
     const main = ssrRef([])
-    const list = ssrRef([]);
+    const list = ssrRef([])
 
     onMounted(() => {
-      if(props.posts != null){
-        main.value = props.posts.splice(0,1)
+      if (props.posts != null) {
+        main.value = props.posts.splice(0, 1)
         list.value = props.posts
       }
     })
 
     return {
       main,
-      list
+      list,
     }
-  }
+  },
 })
 </script>

@@ -49,7 +49,14 @@
       </div>
 
       <div class="flex flex-col w-2/5 pl-5 divide-y divide-gray-500 space-y-5">
-        <div
+        <a :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            "
           class="w-full flex pt-5"
           v-for="(item, index) in posts.list"
           :key="index"
@@ -64,11 +71,11 @@
 
           <div class="flex flex-col px-3 py-3">
             <div class="text-sm py-2">{{ item.date_format }}</div>
-            <p class="font-medium text-base line-clamp-3">
+            <h2 class="font-medium text-base line-clamp-3">
               {{ item.title }}
-            </p>
+            </h2>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   </div>

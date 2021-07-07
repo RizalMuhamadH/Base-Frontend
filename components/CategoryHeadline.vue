@@ -23,9 +23,16 @@
         />
         <div class="h-full flex flex-col flex-1 my-5 space-y-2">
           <span class="text-sm">{{ category.main[0].date_format }}</span>
-          <div class="font-bold text-xl line-clamp-3">
+          <a :href="
+              '/read/' +
+              $moment(category.main[0].created_at).format('YYYY/MM/DD') +
+              '/' +
+              category.main[0].id +
+              '/' +
+              category.main[0].slug
+            " class="font-bold text-xl line-clamp-3">
             {{ category.main[0].title }}
-          </div>
+          </a>
           <p class="line-clamp-3">
             {{ category.main[0].summary }}
           </p>
@@ -33,12 +40,19 @@
       </div>
 
       <div class="flex items-center space-x-3 my-3">
-        <div class="relative w-80" v-for="(item, i) in category.list" :key="i" >
+        <a :href="
+              '/read/' +
+              $moment(item.created_at).format('YYYY/MM/DD') +
+              '/' +
+              item.id +
+              '/' +
+              item.slug
+            " class="relative w-80" v-for="(item, i) in category.list" :key="i" >
           <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
             <div class="text-white text-sm py-2">{{ item.date_format }}</div>
-            <p class="font-medium text-white text-sm line-clamp-2">
+            <h2 class="font-medium text-white text-sm line-clamp-2">
               {{ item.title }}
-            </p>
+            </h2>
           </div>
 
           <div
@@ -52,7 +66,7 @@
               "
           :alt="item.image.caption"
           />
-        </div>
+        </a>
 
         
       </div>

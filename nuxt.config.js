@@ -1,4 +1,5 @@
 export default {
+  loading: true,
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config.js',
@@ -8,8 +9,7 @@ export default {
   },
   env: {
     baseUrl: process.env.BASE_URL || 'http://localhost:3000',
-    STORAGE_URL: 'https://www.ayosurabaya.com/images-surabaya/',
-    API_URL: 'https://www.ayosurabaya.com/images-surabaya/'
+    STORAGE_URL: 'https://www.ayosurabaya.com/images-surabaya/'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -66,6 +66,9 @@ export default {
     axios: {
       baseURL: 'http://127.0.0.1:8000'
     }
+  },
+  privateRuntimeConfig: {
+    apiUrl: process.env.API_URL
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules

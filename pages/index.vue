@@ -119,7 +119,7 @@ export default defineComponent({
 
     const { fetch } = useFetch(async () => {
       await axios
-        .get('http://127.0.0.1:8000/api/recent/0/5')
+        .get(process.env.API_URL+'recent/0/5')
         .then((result) => {
           block.value = result.data.data
         })
@@ -128,7 +128,7 @@ export default defineComponent({
         })
       
       await axios
-        .get('http://127.0.0.1:8000/api/feature/4/0/5')
+        .get(process.env.API_URL+'feature/4/0/5')
         .then((result) => {
           mustRead.value = result.data.data
         })
@@ -137,7 +137,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/feature/2/0/5')
+        .get(process.env.API_URL+'feature/2/0/5')
         .then((result) => {
           editorChoice.value = result.data.data
         })
@@ -146,7 +146,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/recent/0/10')
+        .get(process.env.API_URL+'recent/0/10')
         .then((result) => {
           recent.value = result.data.data
         })
@@ -155,7 +155,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/popular/0/4/90')
+        .get(process.env.API_URL+'popular/0/4/90')
         .then((result) => {
           popular.value = result.data.data
         })
@@ -164,7 +164,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/recent/19/5')
+        .get(process.env.API_URL+'recent/19/5')
         .then((result) => {
           let data = result.data.data
           category.value = {
@@ -177,7 +177,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/recent/2/5')
+        .get(process.env.API_URL+'recent/2/5')
         .then((result) => {
           let data = result.data.data
           category1.value = {
@@ -190,7 +190,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/recent/3/5')
+        .get(process.env.API_URL+'recent/3/5')
         .then((result) => {
           let data = result.data.data
           category2.value = {
@@ -203,7 +203,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/recent/10/5')
+        .get(process.env.API_URL+'recent/10/5')
         .then((result) => {
           netizen.value = result.data.data
         })
@@ -212,7 +212,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/video/recent/5')
+        .get(process.env.API_URL+'video/recent/5')
         .then((result) => {
           let data = result.data.data
           videos.value = {
@@ -225,7 +225,7 @@ export default defineComponent({
         })
 
       await axios
-        .get('http://127.0.0.1:8000/api/photo/recent/5')
+        .get(process.env.API_URL+'photo/recent/5')
         .then((result) => {
           let data = result.data.data
           photos.value = {

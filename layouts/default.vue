@@ -14,13 +14,14 @@ import {
 } from '@nuxtjs/composition-api'
 import axios from 'axios'
 export default defineComponent({
+  loading: true,
   setup() {
     const headline = ssrRef([])
     const menuCategories = ssrRef([])
 
     const { fetch } = useFetch(async () => {
       await axios
-        .get('http://127.0.0.1:8000/api/feature/1/0/10')
+        .get(process.env.API_URL+'feature/1/0/10')
         .then((result) => {
           headline.value = result.data.data
         })
@@ -29,7 +30,7 @@ export default defineComponent({
         })
 
         await axios
-        .get('http://127.0.0.1:8000/api/categories')
+        .get(process.env.API_URL+'categories')
         .then((result) => {
           menuCategories.value = result.data.data
         })
