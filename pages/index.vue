@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="container mx-auto grid grid-cols-8">
-          <category :name="'Hot News'" :posts="category" />
+          <!-- <category :name="'Hot News'" :posts="category" /> -->
           <membership />
         </div>
 
