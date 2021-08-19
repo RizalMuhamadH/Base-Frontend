@@ -20,9 +20,9 @@
               rounded-lg
               border-none
             "
-            >{{ item.categories[0].name }}</span
+            >{{ item.category_name }}</span
           >
-          | {{ item.date_format }}
+          | {{ item.created_at }}
         </div>
         <p class="font-medium text-white text-lg line-clamp-2">
           {{ item.title }}
@@ -43,7 +43,7 @@
       ></div>
       <img
         class="rounded-xl w-full h-full align-middle border-none"
-        :src="'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb"
+        :src="'https://www.ayosurabaya.com/images-surabaya/' + item.image.media.original"
         :alt="item.image.caption"
       />
     </a>
@@ -73,9 +73,9 @@
                 rounded-lg
                 border-none
               "
-              >{{ item.categories[0].name }}</span
+              >{{ item.category_name }}</span
             >
-            | {{ item.date_format }}
+            | {{ item.created_at }}
           </div>
           <h2 class="font-medium text-white text-sm line-clamp-2">
             {{ item.title }}
@@ -97,7 +97,7 @@
         <img
           class="rounded-xl max-w-full h-48 align-middle border-none"
           :src="
-            'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+            'https://www.ayosurabaya.com/images-surabaya/' + item.image.media.original
           "
           :alt="item.image.caption"
         />

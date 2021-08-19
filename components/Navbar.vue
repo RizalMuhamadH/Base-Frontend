@@ -13,7 +13,7 @@
           items-center
         "
       >
-        <div class="flex flex-col justify-center fixed z-20">
+        <div class="flex flex-col justify-center fixed z-20 w-full">
           <img
             src="https://ayobogor.com/assets/ads/bjb/desktop/ads.jpg?w=1197"
             alt="bjb"
@@ -33,58 +33,13 @@
         <NavItem :menus="menus" />
       </div>
     </nav>
-    <div class="bg-green-800 rounded-b-2xl">
-      <div class="container mx-auto flex items-center space-x-5 py-2">
-        <div
-          class="
-            bg-white
-            text-yellow-600
-            rounded-lg
-            py-1
-            px-2
-            font-bold
-            text-lg
-          "
-        >
-          Headline
-        </div>
-        <flicking
-          :options="{
-            gap: 10,
-            duration: 500,
-            horizontal: false,
-            circular: true,
-            moveType: 'freeScroll',
-            zIndex: 10,
-          }"
-          :plugins="state.plugins"
-          @need-panel="
-            (e) => {
-              // ADD PANELS
-            }
-          "
-          @move-end="
-            (e) => {
-              // HANDLE INDEX CHANGE
-            }
-          "
-          class="w-full h-10"
-        >
-          <div v-for="(item, index) in headline" :key="index" class="w-full text-white font-semibold line-clamp-1">
-            {{ item.title }}
-          </div>
-        </flicking>
-      </div>
-    </div>
   </div>
 </template>
 <script>
-import { Fade, AutoPlay } from '@egjs/flicking-plugins'
 import { defineComponent, reactive, onMounted, } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   props: {
-    headline: Array,
     menus: Array
   },
   setup(props) {
@@ -93,7 +48,6 @@ export default defineComponent({
     const state = reactive({
       flick: null,
       position: false,
-      plugins: [new Fade(), new AutoPlay(2000, 'NEXT')],
     })
 
     const handleScroll = () => {
@@ -108,9 +62,6 @@ export default defineComponent({
 
     onMounted(() => {
       window.addEventListener('scroll', handleScroll)
-      state.flick = document.getElementsByClassName('eg-flick-viewport')
-
-      state.flick[0].style.width = '100%'
     })
 
     // onBeforeMount(() => {

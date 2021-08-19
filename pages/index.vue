@@ -8,22 +8,22 @@
             <block-article :posts="block" />
 
             <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
-              <editor-choice :posts="editorChoice" />
-              <recent-article :posts="recent" />
-              <popular-article :postHits="popular" />
+              <!-- <editor-choice :posts="editorChoice" /> -->
+              <!-- <recent-article :posts="recent" /> -->
+              <!-- <popular-article :postHits="popular" /> -->
             </div>
 
-            <category-headline :names="['Nasional', 'Internasional']" :categories="[category1, category2]" />
+            <!-- <category-headline :names="['Nasional', 'Internasional']" :categories="[category1, category2]" /> -->
           </div>
         </div>
 
         <div class="w-full h-full bg-gray-800">
           <div class="container mx-auto grid grid-cols-8">
-            <article-slider :name="'Netizen'" :posts="netizen" />
+            <!-- <article-slider :name="'Netizen'" :posts="netizen" /> -->
             <!-- <gallery /> -->
           </div>
           <div class="container mx-auto grid grid-cols-8">
-            <gallery :videos="videos" :photos="photos"  />
+            <!-- <gallery :videos="videos" :photos="photos"  /> -->
           </div>
         </div>
         <div class="container mx-auto grid grid-cols-8">
@@ -75,6 +75,7 @@ import {
   ssrRef,
 } from '@nuxtjs/composition-api'
 import axios from 'axios'
+import { MeiliSearch } from 'meilisearch'
 // https://code.luasoftware.com/tutorials/nuxtjs/nuxtjs-manual-adsense-component/
 export default defineComponent({
   components: {
@@ -117,125 +118,23 @@ export default defineComponent({
     //   ],
     // })
 
+    const client = new MeiliSearch({
+        host: 'http://127.0.0.1:7700',
+        apiKey: 'wehealth.id',
+      })
+
     const { fetch } = useFetch(async () => {
-      await axios
-        .get(process.env.API_URL+'recent/0/5')
-        .then((result) => {
-          block.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      
-      await axios
-        .get(process.env.API_URL+'feature/4/0/5')
-        .then((result) => {
-          mustRead.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+      await client.index('post').search('', { limit: 5, filters: 'status = PUBLISH' }).then((result) => {
+        block.value = result.hits
+        mustRead.value = result.hits
+        editorChoice.value = result.hits
+        recent.value = result.hits
+        popular.value = result.hits
 
-      await axios
-        .get(process.env.API_URL+'feature/2/0/5')
-        .then((result) => {
-          editorChoice.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'recent/0/10')
-        .then((result) => {
-          recent.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'popular/0/4/90')
-        .then((result) => {
-          popular.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'recent/19/5')
-        .then((result) => {
-          let data = result.data.data
-          category.value = {
-            main: data.splice(0, 1),
-            list: data
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'recent/2/5')
-        .then((result) => {
-          let data = result.data.data
-          category1.value = {
-            main: data.splice(0, 1),
-            list: data
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'recent/3/5')
-        .then((result) => {
-          let data = result.data.data
-          category2.value = {
-            main: data.splice(0, 1),
-            list: data
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'recent/10/5')
-        .then((result) => {
-          netizen.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'video/recent/5')
-        .then((result) => {
-          let data = result.data.data
-          videos.value = {
-            main: data.splice(0, 1),
-            list: data
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'photo/recent/5')
-        .then((result) => {
-          let data = result.data.data
-          photos.value = {
-            main: data.splice(0, 1),
-            list: data
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+        console.log(result.hits)
+      }).catch((err) => {
+        console.log(err)
+      })
 
     })
 

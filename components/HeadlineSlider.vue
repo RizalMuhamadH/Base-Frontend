@@ -48,13 +48,13 @@
               item.slug
             " class="flex gap-2 h-24 w-1/3" v-for="(item, index) in posts" :key="index">
         <img
-          :src="'https://www.ayosurabaya.com/images-surabaya/'+item.image.thumb"
+          :src="'https://www.ayosurabaya.com/images-surabaya/'+item.image.media.original"
           class="shadow rounded max-w-full h-auto align-middle border-none"
           :alt="item.image.caption"
         />
         <div class="flex flex-col">
           <div class="text-black text-sm py-2">
-            <span class="text-green-700 font-bold">{{ item.categories[0].name }}</span> | {{ item.date_format }}
+            <span class="text-green-700 font-bold">{{ item.category_name }}</span> | {{ item.created_at }}
           </div>
           <p class="font-bold text-black text-sm line-clamp-2">
             {{ item.title }}

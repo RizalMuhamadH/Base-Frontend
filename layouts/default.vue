@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar :headline="headline" :menus="menuCategories" />
+    <Navbar :menus="menuCategories" />
     <Nuxt />
   </div>
 </template>
@@ -13,30 +13,25 @@ import {
   ssrRef,
 } from '@nuxtjs/composition-api'
 import axios from 'axios'
+import {MeiliSearch} from 'meilisearch'
 export default defineComponent({
   loading: true,
   setup() {
-    const headline = ssrRef([])
     const menuCategories = ssrRef([])
 
-    const { fetch } = useFetch(async () => {
-      await axios
-        .get(process.env.API_URL+'feature/1/0/10')
-        .then((result) => {
-          headline.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    const client = new MeiliSearch({
+        host: 'http://127.0.0.1:7700',
+        apiKey: 'wehealth.id',
+      })
 
-        await axios
-        .get(process.env.API_URL+'categories')
-        .then((result) => {
-          menuCategories.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    const { fetch } = useFetch(async () => {
+
+      await client.index('category').search('', { filters: 'order > 0' }).then((result) => {
+        menuCategories.value = result.hits
+        console.log(result.hits)
+      }).catch((err) => {
+        console.log(err)
+      })
     })
 
     onMounted(() => {
@@ -44,7 +39,6 @@ export default defineComponent({
     })
 
     return {
-      headline,
       menuCategories
     }
   },

@@ -105,18 +105,24 @@
           >
 
           <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-          <template v-for="(item, index) in menus">
+          <!-- <template v-for="(item, index) in menus">
             <div :key="index">
               <mega-menu :menu="item" v-if="item.children.length > 0" />
               <a
-                v-else
                 href="#"
                 class="text-white px-3 py-2 rounded-md text-sm font-medium"
                 aria-current="page"
                 >{{ item.name }}</a
               >
             </div>
-          </template>
+          </template> -->
+
+          <a v-for="(item, index) in menus" :key="index"
+                :href="'/category/'+item.slug"
+                class="text-white px-3 py-2 rounded-md text-sm font-medium"
+                aria-current="page"
+                >{{ item.name }}</a
+              >
 
           <a
             href="/index"
