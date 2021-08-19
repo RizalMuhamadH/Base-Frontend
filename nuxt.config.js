@@ -59,7 +59,9 @@ export default {
     '@nuxtjs/tailwindcss',
     '@nuxtjs/composition-api/module',
     '@nuxtjs/moment',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/device',
+    '@nuxtjs/amp'
   ],
 
   publicRuntimeConfig: {
