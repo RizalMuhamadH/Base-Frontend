@@ -1,6 +1,6 @@
 <template>
   <div class="col-span-1">
-    <div class="flex flex-col flex-1 sticky top-28">
+    <div class="flex flex-col flex-1 sticky top-16">
       <div
         class="
           font-bold
@@ -27,13 +27,13 @@
         >
           <img
             :src="
-              'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+              storage + item.image.media.cropped
             "
             :alt="item.image.caption"
             class="shadow rounded w-full h-40 align-middle border-none object-cover"
           />
           <div class="text-black text-xs py-2">
-            <span class="text-green-700 font-bold">{{ item.categories[0].name }}</span> | {{ item.date_format }}
+            <span class="text-green-700 font-bold">{{ item.category_name }}</span> | {{ $moment(item.created_at).fromNow() }}
           </div>
           <p class="font-medium text-black text-sm">
             {{ item.title }}
@@ -44,11 +44,19 @@
   </div>
 </template>
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, ssrRef } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   props: {
     posts: Array,
   },
+  setup(props) {
+    
+    const storage = ssrRef(process.env.STORAGE_URL)
+
+    return {
+      storage
+    }
+  }
 })
 </script>

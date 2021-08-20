@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 gap-2">
+  <div class="grid grid-cols-2 gap-2 my-10">
     <a :href="
               '/read/' +
               $moment(item.created_at).format('YYYY/MM/DD') +
@@ -22,7 +22,7 @@
             "
             >{{ item.category_name }}</span
           >
-          | {{ item.created_at }}
+          | {{ $moment(item.created_at).fromNow() }}
         </div>
         <p class="font-medium text-white text-lg line-clamp-2">
           {{ item.title }}
@@ -43,7 +43,7 @@
       ></div>
       <img
         class="rounded-xl w-full h-full align-middle border-none"
-        :src="'https://www.ayosurabaya.com/images-surabaya/' + item.image.media.original"
+        :src="storage + item.image.media.cropped"
         :alt="item.image.caption"
       />
     </a>
@@ -75,7 +75,7 @@
               "
               >{{ item.category_name }}</span
             >
-            | {{ item.created_at }}
+            | {{ $moment(item.created_at).fromNow() }}
           </div>
           <h2 class="font-medium text-white text-sm line-clamp-2">
             {{ item.title }}
@@ -95,9 +95,9 @@
           "
         ></div>
         <img
-          class="rounded-xl max-w-full h-48 align-middle border-none"
+          class="rounded-xl w-full h-auto align-middle border-none object-cover"
           :src="
-            'https://www.ayosurabaya.com/images-surabaya/' + item.image.media.original
+            storage + item.image.media.cropped
           "
           :alt="item.image.caption"
         />
@@ -115,6 +115,8 @@ export default defineComponent({
   setup(props) {
     const main = ssrRef([])
     const list = ssrRef([])
+    
+    const storage = ssrRef(process.env.STORAGE_URL)
 
     onMounted(() => {
       if (props.posts != null) {
@@ -126,6 +128,7 @@ export default defineComponent({
     return {
       main,
       list,
+      storage
     }
   },
 })

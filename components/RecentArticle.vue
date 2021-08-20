@@ -14,21 +14,19 @@
 
     <div class="flex flex-col divide-y divide-gray-300 mt-3 space-y-3">
       <div
-        class="flex pt-3 space-x-2"
+        class="flex flex-row pt-3 space-x-2"
         v-for="(item, index) in posts"
         :key="index"
       >
         <img
           :src="
-            'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+            storage + item.image.media.small
           "
-          :alt="item.image.caption"
+          :alt="item.image.caption || ''"
           class="
-            flex-1
             shadow
             rounded
-            max-w-full
-            h-auto
+            w-40
             align-middle
             border-none
           "
@@ -36,11 +34,11 @@
         <div class="flex flex-col flex-1">
           <div class="text-black text-xs py-2">
             <span class="text-green-700 font-bold">{{
-              item.categories[0].name
+              item.category_name
             }}</span>
-            | {{ $moment(item.created_at, "YYYY-MM-DDTHH:mm:ss").fromNow() }}
+            | {{ $moment(item.created_at).fromNow() }}
           </div>
-          <a :href="'/read/'+$moment(item.created_at).format('YYYY/MM/DD')+'/'+item.id+'/'+item.slug" class="font-medium text-black text-sm">
+          <a :href="'/read/'+$moment(item.created_at).format('YYYY/MM/DD')+'/'+item.id+'/'+item.slug" class="font-medium text-black text-xl">
             {{ item.title }}
           </a>
         </div>
@@ -49,7 +47,7 @@
   </div>
 </template>
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, ssrRef } from '@nuxtjs/composition-api'
 // import {moment} from '@nuxtjs/moment'
 
 export default defineComponent({
@@ -57,12 +55,16 @@ export default defineComponent({
     posts: Array,
   },
   setup(props) {
+    
+    const storage = ssrRef(process.env.STORAGE_URL)
+
     const dateMoment = (date) => {
       return moment(date).fromNow();
     }
 
     return {
-      dateMoment
+      dateMoment,
+      storage
     }
   }
 })

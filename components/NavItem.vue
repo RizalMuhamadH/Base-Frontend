@@ -99,6 +99,7 @@
               rounded-md
               text-sm
               font-medium
+              hover:bg-gray-700 hover:text-white
             "
             aria-current="page"
             >Home</a
@@ -119,7 +120,7 @@
 
           <a v-for="(item, index) in menus" :key="index"
                 :href="'/category/'+item.slug"
-                class="text-white px-3 py-2 rounded-md text-sm font-medium"
+                class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700 hover:text-white"
                 aria-current="page"
                 >{{ item.name }}</a
               >

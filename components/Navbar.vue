@@ -14,22 +14,22 @@
         "
       >
         <div class="flex flex-col justify-center fixed z-20 w-full">
-          <img
+          <!-- <img
             src="https://ayobogor.com/assets/ads/bjb/desktop/ads.jpg?w=1197"
             alt="bjb"
-          />
+          /> -->
           <transition name="fade" mode="out-in" leave-cancelled>
             <NavItem :menus="menus" v-show="state.position" />
           </transition>
         </div>
-        <div class="flex flex-col pt-28 pb-1">
-          <img src="~/assets/logo-ayobandung.png" alt="" />
-          <h1 class="text-lg text-white text-center py-2">
-            Semua Tentang Bandung
-          </h1>
+        <div class="flex flex-col pb-1">
+          <!-- <img src="~/assets/logo-ayobandung.png" alt="" /> -->
+          <!-- <h1 class="text-lg text-white text-center py-2">
+            Wehealth
+          </h1> -->
         </div>
       </div>
-      <div class="w-full border-t border-white">
+      <div class="w-full border-t border-gray-500">
         <NavItem :menus="menus" />
       </div>
     </nav>

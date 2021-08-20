@@ -47,7 +47,7 @@
       >
         <div class="relative w-80" v-for="(item, index) in posts" :key="index">
           <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-            <div class="text-white text-sm py-2">{{ item.date_format }}</div>
+            <div class="text-white text-sm py-2">{{ $moment(item.created_at).fromNow() }}</div>
             <p class="font-medium text-white text-sm line-clamp-2">
               {{ item.title }}
             </p>
@@ -75,79 +75,11 @@
               object-cover
             "
             :src="
-              'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+              storage + item.image.media.small
             "
             :alt="item.image.caption"
           />
         </div>
-        <!-- <div class="relative w-80">
-          <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-            <div class="text-white text-sm py-2">31 September 2021</div>
-            <p class="font-medium text-white text-sm line-clamp-2">
-              Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-            </p>
-          </div>
-
-          <div
-            class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
-          ></div>
-          <img
-            class="rounded-xl max-w-full h-48 align-middle border-none object-cover"
-            src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-            alt=""
-          />
-        </div>
-        <div class="relative w-80">
-          <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-            <div class="text-white text-sm py-2">31 September 2021</div>
-            <p class="font-medium text-white text-sm line-clamp-2">
-              Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-            </p>
-          </div>
-
-          <div
-            class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
-          ></div>
-          <img
-            class="rounded-xl max-w-full h-48 align-middle border-none object-cover"
-            src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-            alt=""
-          />
-        </div>
-        <div class="relative w-80">
-          <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-            <div class="text-white text-sm py-2">31 September 2021</div>
-            <p class="font-medium text-white text-sm line-clamp-2">
-              Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-            </p>
-          </div>
-
-          <div
-            class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
-          ></div>
-          <img
-            class="rounded-xl max-w-full h-48 align-middle border-none object-cover"
-            src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-            alt=""
-          />
-        </div>
-        <div class="relative w-80">
-          <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-            <div class="text-white text-sm py-2">31 September 2021</div>
-            <p class="font-medium text-white text-sm line-clamp-2">
-              Kabupaten Cirebon Catat Lonjakan Kasus Covid-19 Tertinggi
-            </p>
-          </div>
-
-          <div
-            class="h-48 w-full bg-gray-600 absolute z-10 rounded-xl border-none opacity-30"
-          ></div>
-          <img
-            class="rounded-xl max-w-full h-48 align-middle border-none object-cover"
-            src="https://www.ayocirebon.com/images-cirebon/post/articles/2021/05/07/10894/masjid_pusaka_baiturrahmah_-_imy.jpg"
-            alt=""
-          />
-        </div> -->
       </flicking>
       <div
         class="cursor-pointer text-yellow-500 h-4 w-4 ml-4"
@@ -173,7 +105,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref } from '@nuxtjs/composition-api'
+import { defineComponent, ref, ssrRef } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   props: {
@@ -182,6 +114,8 @@ export default defineComponent({
   },
   setup(props) {
     const state = ref(null)
+    
+    const storage = ssrRef(process.env.STORAGE_URL)
 
     const prev = () => {
       state.value.prev()
@@ -194,6 +128,7 @@ export default defineComponent({
       state,
       prev,
       next,
+      storage
     }
   },
 })

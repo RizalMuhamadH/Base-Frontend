@@ -4,12 +4,12 @@
       <div class="absolute z-10 top-0 w-full">
         <div class="container mx-auto grid grid-cols-8 justify-items-stretch">
           <div class="w-full col-span-6 col-start-2">
-            <headline-slider :posts="mustRead" />
+            <!-- <headline-slider :posts="mustRead" /> -->
             <block-article :posts="block" />
 
             <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
-              <!-- <editor-choice :posts="editorChoice" /> -->
-              <!-- <recent-article :posts="recent" /> -->
+              <editor-choice :posts="editorChoice" />
+              <recent-article :posts="recent" />
               <!-- <popular-article :postHits="popular" /> -->
             </div>
 
@@ -18,8 +18,8 @@
         </div>
 
         <div class="w-full h-full bg-gray-800">
-          <div class="container mx-auto grid grid-cols-8">
-            <!-- <article-slider :name="'Netizen'" :posts="netizen" /> -->
+          <div class="container mx-auto grid grid-cols-8 my-8">
+            <article-slider :name="'Netizen'" :posts="netizen" />
             <!-- <gallery /> -->
           </div>
           <div class="container mx-auto grid grid-cols-8">
@@ -27,8 +27,8 @@
           </div>
         </div>
         <div class="container mx-auto grid grid-cols-8">
-          <!-- <category :name="'Hot News'" :posts="category" /> -->
-          <membership />
+          <category :name="'Hot News'" :posts="category" />
+          <!-- <membership /> -->
         </div>
 
         <Footer />
@@ -124,12 +124,25 @@ export default defineComponent({
       })
 
     const { fetch } = useFetch(async () => {
-      await client.index('post').search('', { limit: 5, filters: 'status = PUBLISH' }).then((result) => {
-        block.value = result.hits
+      await client.index('post').search('', { limit: 20, filters: 'status = PUBLISH' }).then((result) => {
         mustRead.value = result.hits
-        editorChoice.value = result.hits
         recent.value = result.hits
         popular.value = result.hits
+
+        console.log(result.hits)
+      }).catch((err) => {
+        console.log(err)
+      })
+
+      await client.index('post').search('', { limit: 5, filters: 'status = PUBLISH AND feature_id = 1' }).then((result) => {
+        block.value = result.hits
+        editorChoice.value = result.hits
+        netizen.value = result.hits
+        let data = result.hits
+          category.value = {
+            main: data.splice(0, 1),
+            list: data
+          }
 
         console.log(result.hits)
       }).catch((err) => {

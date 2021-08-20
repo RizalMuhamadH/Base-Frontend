@@ -11,7 +11,7 @@
         <div class="relative w-full h-full">
           <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
             <div class="text-white text-sm py-2">
-              {{ posts.main[0].date_format }}
+              {{ $moment(posts.main[0].date_format).fromNow() }}
             </div>
             <p class="font-medium text-white text-2xl line-clamp-2">
               {{ posts.main[0].title }}
@@ -40,8 +40,8 @@
               object-cover
             "
             :src="
-              'https://www.ayosurabaya.com/images-surabaya/' +
-              posts.main[0].image.thumb
+              storage +
+              posts.main[0].image.media.cropped
             "
             :alt="posts.main[0].image.caption"
           />
@@ -64,13 +64,13 @@
           <img
             class="rounded-xl w-52 h-32 border-none object-cover"
             :src="
-              'https://www.ayosurabaya.com/images-surabaya/' + item.image.thumb
+              storage + item.image.media.cropped
             "
             :alt="item.image.caption"
           />
 
           <div class="flex flex-col px-3 py-3">
-            <div class="text-sm py-2">{{ item.date_format }}</div>
+            <div class="text-sm py-2">{{ $moment(item.created_at).fromNow() }}</div>
             <h2 class="font-medium text-base line-clamp-3">
               {{ item.title }}
             </h2>
@@ -81,12 +81,20 @@
   </div>
 </template>
 <script>
-import { defineComponent } from '@nuxtjs/composition-api'
+import { defineComponent, ssrRef } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   props: {
     name: String,
     posts: Object,
   },
+  setup(props) {
+    
+    const storage = ssrRef(process.env.STORAGE_URL)
+
+    return {
+      storage
+    }
+  }
 })
 </script>
