@@ -28,10 +28,10 @@
         <span class="font-extrabold text-2xl">TAGS</span>
       </div>
       <div class="flex flex-wrap">
-        <a href="#" v-for="(item, index) in post.tags" :key="index"
+        <a :href="'/tag/'+post.tags_slug[index]" v-for="(item, index) in post.tags_name" :key="index"
           class="text-green-800 border border-green-800 rounded-lg py-1 px-2 font-semibold mr-2 mt-2 hover:bg-green-800 hover:text-white"
         >
-          {{ item.name }}
+          {{ item }}
         </a>
         
       </div>

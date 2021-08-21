@@ -1,16 +1,16 @@
 <template>
   <div class="col-span-4 space-y-4">
-    <breadcrumb :category="post.categories[0]" />
+    <breadcrumb :category="post.category_name" />
     <div class="text-3xl font-bold text-justify">
       {{ post.title }}
     </div>
     <div class="text-sm">
-      {{ post.categories[0].name }} | {{ post.date_format }} WIB |
-      <span class="text-green-800 font-semibold">{{ post.author.name }}</span>
+      {{ post.category_name }} | {{ $moment(post.created_at).format('dddd, D MMMM YYYY') }} |
+      <span class="text-green-800 font-semibold">{{ post.author }}</span>
     </div>
     <img
       class="rounded-xl w-full border-none object-cover"
-      :src="'https://www.ayosurabaya.com/images-surabaya/' + post.image.thumb"
+      :src="'https://www.ayosurabaya.com/images-surabaya/' + post.image.media.small"
       :alt="post.image.caption"
     />
   </div>

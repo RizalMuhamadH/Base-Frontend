@@ -94,17 +94,17 @@ export default defineComponent({
   },
   head: {},
   setup() {
-    const block = ssrRef([]);
-    const mustRead = ssrRef([]);
-    const editorChoice = ssrRef([]);
-    const recent = ssrRef([]);
-    const popular = ssrRef([]);
-    const category = ssrRef([]);
-    const category1 = ssrRef([]);
-    const category2 = ssrRef([]);
-    const netizen = ssrRef([]);
-    const photos = ssrRef([]);
-    const videos = ssrRef([]);
+    const block = ssrRef([])
+    const mustRead = ssrRef([])
+    const editorChoice = ssrRef([])
+    const recent = ssrRef([])
+    const popular = ssrRef([])
+    const category = ssrRef([])
+    const category1 = ssrRef([])
+    const category2 = ssrRef([])
+    const netizen = ssrRef([])
+    const photos = ssrRef([])
+    const videos = ssrRef([])
     // useMeta({
     //   title: 'Home',
     //   script: [
@@ -119,44 +119,58 @@ export default defineComponent({
     // })
 
     const client = new MeiliSearch({
-        host: 'http://127.0.0.1:7700',
-        apiKey: 'wehealth.id',
-      })
-
-    const { fetch } = useFetch(async () => {
-      await client.index('post').search('', { limit: 20, filters: 'status = PUBLISH' }).then((result) => {
-        mustRead.value = result.hits
-        recent.value = result.hits
-        popular.value = result.hits
-
-        console.log(result.hits)
-      }).catch((err) => {
-        console.log(err)
-      })
-
-      await client.index('post').search('', { limit: 5, filters: 'status = PUBLISH AND feature_id = 1' }).then((result) => {
-        block.value = result.hits
-        editorChoice.value = result.hits
-        netizen.value = result.hits
-        let data = result.hits
-          category.value = {
-            main: data.splice(0, 1),
-            list: data
-          }
-
-        console.log(result.hits)
-      }).catch((err) => {
-        console.log(err)
-      })
-
+      host: 'http://127.0.0.1:7700',
+      apiKey: 'wehealth.id',
     })
 
+    const { fetch } = useFetch(async () => {
+      await client
+        .index('post')
+        .search('', {
+          limit: 20,
+          filters: 'status = PUBLISH',
+          attributesToRetrieve: ['id', 'title', 'slug', 'description', 'feature_id', 'category_id', 'category_name', 'user_id', 'user', 'status', 'image', 'created_at', 'timestamp']
+        })
+        .then((result) => {
+          mustRead.value = result.hits
+          recent.value = result.hits
+          popular.value = result.hits
+
+          console.log(result)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await client
+        .index('post')
+        .search('', {
+          limit: 5,
+          filters: 'status = PUBLISH AND feature_id = 1',
+          attributesToRetrieve: ['id', 'title', 'slug', 'description', 'feature_id', 'category_id', 'category_name', 'user_id', 'user', 'status', 'image', 'created_at', 'timestamp']
+        })
+        .then((result) => {
+          block.value = result.hits
+          editorChoice.value = result.hits
+          netizen.value = result.hits
+          let data = result.hits
+          category.value = {
+            main: data.splice(0, 1),
+            list: data,
+          }
+
+          console.log(result)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    })
 
     const isDev = ref(process.env.NODE_ENV !== 'production')
 
     onMounted(() => {
       fetch()
-    // getHeadline()
+      // getHeadline()
       if (!isDev) {
         // this.$nextTick(() => {
         //   try {
@@ -180,7 +194,7 @@ export default defineComponent({
       photos,
       category,
       category1,
-      category2
+      category2,
     }
   },
 })

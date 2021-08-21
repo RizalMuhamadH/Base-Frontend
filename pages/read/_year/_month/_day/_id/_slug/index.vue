@@ -4,7 +4,7 @@
       <div class="absolute z-10 top-0 w-full">
         <div class="container mx-auto grid grid-cols-8 justify-items-stretch">
           <div class="w-full col-span-6 col-start-2">
-            <headline-slider :posts="mustRead" />
+            <!-- <headline-slider :posts="mustRead" /> -->
 
             <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
               <div class="xl:grid xl:grid-cols-4 col-span-4 flex gap-3">
@@ -60,6 +60,7 @@ import {
 } from '@nuxtjs/composition-api'
 import axios from 'axios'
 import RelatedArticle from '~/components/RelatedArticle.vue'
+import { MeiliSearch } from 'meilisearch'
 // https://code.luasoftware.com/tutorials/nuxtjs/nuxtjs-manual-adsense-component/
 export default defineComponent({
   components: {
@@ -86,7 +87,7 @@ export default defineComponent({
     // ],
   },
   setup(props) {
-    const { route, params, $config, $nuxt } = useContext()
+    const { route, params, $config, $nuxt, $moment } = useContext()
     const { meta, title } = useMeta()
 
     const isDev = ref(process.env.NODE_ENV !== 'production')
@@ -98,91 +99,112 @@ export default defineComponent({
     const image = ssrRef({})
     const related = ssrRef([])
 
+    const client = new MeiliSearch({
+      host: 'http://127.0.0.1:7700',
+      apiKey: 'wehealth.id',
+    })
+
     const { fetch } = useFetch(async () => {
       // $nuxt.$loading.start()
 
-      await axios
-        .get(process.env.API_URL+'feature/4/0/5')
+      await client
+        .index('post')
+        .search('', {
+          limit: 5,
+          filters: 'status = PUBLISH AND feature_id = 2',
+          attributesToRetrieve: [
+            'id',
+            'title',
+            'slug',
+            'description',
+            'feature_id',
+            'category_id',
+            'category_name',
+            'user_id',
+            'user',
+            'status',
+            'image',
+            'created_at',
+            'timestamp',
+          ],
+        })
         .then((result) => {
-          console.log($config)
-          mustRead.value = result.data.data
+          editorChoice.value = result.hits
+
+          console.log(result)
         })
         .catch((err) => {
           console.log(err)
         })
 
-      await axios
-        .get(process.env.API_URL+'feature/2/0/5')
-        .then((result) => {
-          editorChoice.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'popular/0/4/90')
-        .then((result) => {
-          popular.value = result.data.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-
-      await axios
-        .get(process.env.API_URL+'article/' + params.value.id)
-        .then((result) => {
-          post.value = result.data.data.post
-          image.value = result.data.data.post.image
-          related.value = result.data.data.related
-          title.value = post.value.title
+      await client
+        .index('post')
+        .getDocument(params.value.id)
+        .then(async (result) => {
+          console.log(result.title)
+          post.value = result
+          image.value = result.image
+          title.value = result.title
           meta.value = [
             {
               hid: 'description',
               name: 'description',
-              content: post.value.summary,
+              content: post.value.meta_description || post.value.description,
             },
-            { name: 'keywords', content: post.value.keyword },
+            { name: 'keywords', content: post.value.meta_keyword || '' },
             { hid: 'og:title', name: 'og:title', content: post.value.title },
-            { hid: 'og:url', name: 'og:url', content: process.env.baseUrl+route.value.fullPath },
-            { hid: 'og:image', name: 'og:image', content: process.env.STORAGE_URL+image.value.thumb },
+            {
+              hid: 'og:url',
+              name: 'og:url',
+              content: process.env.baseUrl + route.value.fullPath,
+            },
+            {
+              hid: 'og:image',
+              name: 'og:image',
+              content: process.env.STORAGE_URL + image.value.media.original,
+            },
             { hid: 'og:site_name', name: 'og:site_name', content: '' },
             {
               hid: 'og:description',
               name: 'og:description',
-              content: post.value.summary,
+              content: post.value.meta_description || post.value.description,
             },
           ]
+
+          const getPopular = await client
+            .index('post-popular')
+            .search('', { filters: 'id = ' + params.value.id })
+
+          let data = {
+            id: result.id,
+            title: result.title,
+            slug: result.slug,
+            created_at: result.created_at,
+            period: $moment().format('MMYYYY'),
+            hit: getPopular.hits.length == 0 ? 1 : getPopular.hits[0].hit + 1,
+          }
+          if (getPopular.hits.length == 0) {
+            console.log(0)
+            await client.index('post-popular').addDocuments([data])
+          } else {
+            console.log(1)
+            await client.index('post-popular').updateDocuments([data])
+          }
         })
         .catch((err) => {
           console.log(err)
         })
 
-        // $nuxt.$loading.finish()
+      await client.index('post-popular').search('', {limit: 5, filters: 'period = '+ $moment().format('MMYYYY')}).then((res) => {
+        popular.value = res.hits
+      }).catch((err) => {
+        console.log(err);
+      })
+
+      // $nuxt.$loading.finish()
     })
 
-    // useMeta({
-    //   title: post.value.title,
-    //   meta: [
-    //     {
-    //       hid: 'description',
-    //       name: 'description',
-    //       content: post.value.summary,
-    //     },
-    //     { name: 'keywords', content: post.value.keyword },
-    //     { hid: 'og:title', name: 'og:title', content: post.value.title },
-    //     { hid: 'og:url', name: 'og:url', content: route.fullPath },
-    //     { hid: 'og:image', name: 'og:image', content: image.value.thumb },
-    //     { hid: 'og:site_name', name: 'og:site_name', content: '' },
-    //     {
-    //       hid: 'og:description',
-    //       name: 'og:description',
-    //       content: post.value.summary,
-    //     },
-    //   ],
-    // })
-
-    onMounted(() => {
+    onMounted(async () => {
       fetch()
 
       if (!isDev.value) {

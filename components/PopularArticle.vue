@@ -1,6 +1,6 @@
 <template>
   <div class="col-span-2">
-    <div class="flex flex-col flex-1 sticky top-28">
+    <div class="flex flex-col flex-1 sticky top-16">
       <div
         class="
           font-bold
@@ -15,7 +15,7 @@
       <div class="flex flex-col mt-3 space-y-3">
         <div
           class="flex flex-row flex-auto space-x-2"
-          v-for="(item, index) in posts"
+          v-for="(item, index) in postHits"
           :key="index"
         >
           <div class="text-lg font-bold text-green-700">{{ index + 1 }}.</div>
@@ -28,50 +28,8 @@
               '/' +
               item.slug
             "
-            class="relative"
-          >
-            <div class="absolute z-20 bottom-0 left-0 flex flex-col px-3 py-3">
-              <div class="text-white text-sm py-2">
-                <span
-                  class="
-                    bg-green-700
-                    text-white
-                    font-normal
-                    px-2
-                    py-1
-                    rounded-lg
-                    border-none
-                  "
-                  >{{ item.categories[0].name }}</span
-                >
-                | {{ item.date_format }}
-              </div>
-              <p class="font-medium text-white text-sm line-clamp-2">
-                {{ item.title }}
-              </p>
-            </div>
-
-            <div
-              class="
-                h-48
-                w-full
-                bg-gray-600
-                absolute
-                z-10
-                rounded-xl
-                border-none
-                opacity-30
-              "
-            ></div>
-            <img
-              class="rounded-xl w-full h-48 align-middle border-none"
-              :src="
-                'https://www.ayosurabaya.com/images-surabaya/' +
-                item.image.thumb
-              "
-              :alt="item.image.caption"
-            />
-          </a>
+            class="text-lg font-bold hover:text-green-600"
+          > {{ item.title }} </a>
         </div>
       </div>
     </div>
