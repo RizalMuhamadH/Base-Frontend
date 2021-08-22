@@ -9,7 +9,7 @@
         py-2
       "
     >
-      Terbaru
+      {{ name }}
     </div>
 
     <div class="flex flex-col divide-y divide-gray-300 mt-3 space-y-3">
@@ -53,6 +53,7 @@ import { defineComponent, ssrRef } from '@nuxtjs/composition-api'
 export default defineComponent({
   props: {
     posts: Array,
+    name: String
   },
   setup(props) {
     

@@ -9,8 +9,8 @@
 
             <div class="xl:grid xl:grid-cols-6 flex gap-3 mt-3">
               <editor-choice :posts="editorChoice" />
-              <recent-article :posts="recent" />
-              <!-- <popular-article :postHits="popular" /> -->
+              <recent-article :posts="recent" :name="'Terbaru'" />
+              <popular-article :postHits="popular" />
             </div>
 
             <!-- <category-headline :names="['Nasional', 'Internasional']" :categories="[category1, category2]" /> -->
@@ -38,18 +38,7 @@
         <banner-right-left />
       </div>
 
-      <!-- <div class="w-full h-screen"></div>
-    <div class="w-full h-screen"></div> -->
     </div>
-    <!-- <template v-if="isDev"> [ADSENSE PLACEHOLDER] </template> -->
-    <!-- <ins
-      class="adsbygoogle"
-      style="display: block"
-      data-ad-client="ca-pub-5267702858942303"
-      data-ad-slot="2639233875"
-      data-ad-format="auto"
-      data-full-width-responsive="true"
-    ></ins> -->
   </div>
 </template>
 
@@ -73,6 +62,7 @@ import {
   onMounted,
   useFetch,
   ssrRef,
+  useContext
 } from '@nuxtjs/composition-api'
 import axios from 'axios'
 import { MeiliSearch } from 'meilisearch'
@@ -105,6 +95,8 @@ export default defineComponent({
     const netizen = ssrRef([])
     const photos = ssrRef([])
     const videos = ssrRef([])
+    
+    const { $moment } = useContext()
     // useMeta({
     //   title: 'Home',
     //   script: [
@@ -129,12 +121,25 @@ export default defineComponent({
         .search('', {
           limit: 20,
           filters: 'status = PUBLISH',
-          attributesToRetrieve: ['id', 'title', 'slug', 'description', 'feature_id', 'category_id', 'category_name', 'user_id', 'user', 'status', 'image', 'created_at', 'timestamp']
+          attributesToRetrieve: [
+            'id',
+            'title',
+            'slug',
+            'description',
+            'feature_id',
+            'category_id',
+            'category_name',
+            'user_id',
+            'user',
+            'status',
+            'image',
+            'created_at',
+            'timestamp',
+          ],
         })
         .then((result) => {
           mustRead.value = result.hits
           recent.value = result.hits
-          popular.value = result.hits
 
           console.log(result)
         })
@@ -147,7 +152,21 @@ export default defineComponent({
         .search('', {
           limit: 5,
           filters: 'status = PUBLISH AND feature_id = 1',
-          attributesToRetrieve: ['id', 'title', 'slug', 'description', 'feature_id', 'category_id', 'category_name', 'user_id', 'user', 'status', 'image', 'created_at', 'timestamp']
+          attributesToRetrieve: [
+            'id',
+            'title',
+            'slug',
+            'description',
+            'feature_id',
+            'category_id',
+            'category_name',
+            'user_id',
+            'user',
+            'status',
+            'image',
+            'created_at',
+            'timestamp',
+          ],
         })
         .then((result) => {
           block.value = result.hits
@@ -160,6 +179,19 @@ export default defineComponent({
           }
 
           console.log(result)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+
+      await client
+        .index('post-popular')
+        .search('', {
+          limit: 5,
+          filters: 'period = ' + $moment().format('MMYYYY'),
+        })
+        .then((res) => {
+          popular.value = res.hits
         })
         .catch((err) => {
           console.log(err)
