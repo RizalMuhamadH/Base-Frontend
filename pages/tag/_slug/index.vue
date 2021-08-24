@@ -37,7 +37,7 @@ import RecentArticle from '~/components/RecentArticle.vue'
 
 export default defineComponent({
   components: { PopularArticle, RecentArticle, EditorChoice, Footer },
-  head:{},  
+  head: {},
   setup() {
     const { route, params, $config, $nuxt, $moment } = useContext()
     const { meta, title } = useMeta()
@@ -55,18 +55,15 @@ export default defineComponent({
     })
 
     const { fetch } = useFetch(async () => {
-        console.log(route.value);
       await client
         .index('tag')
         .search('', {
           filters: 'slug = ' + route.value.params.slug,
         })
-        .then((res) => {
-            console.log(res)
+        .then(async(res) => {
           if (res.hits.length != 0) {
             tag.value = res.hits[0]
-          }
-            title.value = 'Tag '+tag.value.name
+            title.value = 'Tag ' + tag.value.name
 
             meta.value = [
               {
@@ -75,7 +72,11 @@ export default defineComponent({
                 content: tag.value.name,
               },
               { name: 'keywords', content: tag.value.name },
-              { hid: 'og:title', name: 'og:title', content: 'Tag '+tag.value.name },
+              {
+                hid: 'og:title',
+                name: 'og:title',
+                content: 'Tag ' + tag.value.name,
+              },
               {
                 hid: 'og:url',
                 name: 'og:url',
@@ -86,14 +87,38 @@ export default defineComponent({
                 name: 'og:image',
                 content: '',
               },
-              { hid: 'og:site_name', name: 'og:site_name', content: tag.value.name },
+              {
+                hid: 'og:site_name',
+                name: 'og:site_name',
+                content: tag.value.name,
+              },
               {
                 hid: 'og:description',
                 name: 'og:description',
                 content: tag.value.name,
               },
             ]
-        //   }
+
+            const getPopular = await client
+              .index('tag-popular')
+              .search('', { filters: 'slug = ' + route.value.params.slug })
+
+            let data = {
+              id: tag.value.id,
+              name: tag.value.name,
+              slug: tag.value.slug,
+              created_at: tag.value.created_at,
+              period: $moment().format('MMYYYY'),
+              hit: getPopular.hits.length == 0 ? 1 : getPopular.hits[0].hit + 1,
+            }
+            if (getPopular.hits.length == 0) {
+              console.log(0)
+              await client.index('tag-popular').addDocuments([data])
+            } else {
+              console.log(1)
+              await client.index('tag-popular').updateDocuments([data])
+            }
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -105,7 +130,7 @@ export default defineComponent({
           offset: offset.value,
           limit: 20,
           filters: 'status = PUBLISH',
-          facetFilters:["tags_slug:"+route.value.params.slug],
+          facetFilters: ['tags_slug:' + route.value.params.slug],
           attributesToRetrieve: [
             'id',
             'title',
@@ -124,8 +149,6 @@ export default defineComponent({
         })
         .then((result) => {
           category.value = result.hits
-
-          console.log(result)
         })
         .catch((err) => {
           console.log(err)
@@ -155,7 +178,6 @@ export default defineComponent({
         .then((result) => {
           editorChoice.value = result.hits
 
-          console.log(result)
         })
         .catch((err) => {
           console.log(err)
@@ -175,15 +197,11 @@ export default defineComponent({
         })
     })
 
-    onMounted(() => {
-      fetch()
-    })
-
     return {
       editorChoice,
       popular,
       category,
-      tag
+      tag,
     }
   },
 })
